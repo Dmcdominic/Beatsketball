@@ -17,8 +17,9 @@ public class music_manager : MonoBehaviour {
 
 	// Private vars
 	private float beat_interval;
+	private float big_beat_interval;
 	private float prev_disp = 0;
-	private bool prev_big_beat = false;
+	private float prev_big_disp = 0;
 
 	public static AudioSource audioSource;
 
@@ -38,6 +39,7 @@ public class music_manager : MonoBehaviour {
 		DontDestroyOnLoad(gameObject);
 		audioSource = GetComponentInChildren<AudioSource>();
 		beat_interval = (60f / Track.bpm) * (float)beats_per_playable_beat;
+		big_beat_interval = beat_interval * 2f;
 	}
 
 	// Start the scene
@@ -49,6 +51,7 @@ public class music_manager : MonoBehaviour {
 	// Start the song, and the gameplay
 	private void start_song() {
 		prev_disp = 0;
+		prev_big_disp = 0;
 		audioSource.Play();
 		to_trigger_on_start_song.Invoke();
 		playing.val = true;
@@ -76,6 +79,13 @@ public class music_manager : MonoBehaviour {
 			on_beat();
 		}
 		prev_disp = new_disp;
+
+		// Check for triggering the BIG beat
+		float new_big_disp = get_big_beat_displacement();
+		if (prev_big_disp < 0f && new_big_disp >= 0f) {
+			on_big_beat();
+		}
+		prev_big_disp = new_big_disp;
 	}
 
 	// Returns, in seconds, how close the track is to the nearest beat (this frame).
@@ -92,13 +102,23 @@ public class music_manager : MonoBehaviour {
 		return result;
 	}
 
+	// Returns, in seconds, how close the track is to the nearest BIG beat (this frame).
+	public static float get_big_beat_displacement() {
+		if (audioSource.time < Music_Manager.Track.start_time) {
+			return audioSource.time - Music_Manager.Track.start_time;
+		}
+
+		float time_since = audioSource.time - Music_Manager.Track.start_time;
+		float displacement = time_since % Music_Manager.big_beat_interval;
+		float negative_disp = displacement - Music_Manager.big_beat_interval;
+
+		float result = (Mathf.Abs(displacement) <= Mathf.Abs(negative_disp)) ? displacement : negative_disp;
+		return result;
+	}
+
 	// Triggered on the frame when a beat occurs
 	private void on_beat() {
 		to_trigger_on_beat.Invoke();
-		if (!prev_big_beat) {
-			on_big_beat();
-		}
-		prev_big_beat = !prev_big_beat;
 	}
 
 	// Triggered every other beat
@@ -106,8 +126,13 @@ public class music_manager : MonoBehaviour {
 		to_trigger_on_big_beat.Invoke();
 	}
 
-	// Returns true iff we are within
+	// Returns true iff we are within beat_range seconds of a beat
 	public static bool is_valid_frame() {
+		return Mathf.Abs(get_beat_displacement()) <= Music_Manager.beat_range;
+	}
+
+	// Returns true iff we are within beat_range seconds of a big beat
+	public static bool is_valid_big_frame() {
 		return Mathf.Abs(get_beat_displacement()) <= Music_Manager.beat_range;
 	}
 }
