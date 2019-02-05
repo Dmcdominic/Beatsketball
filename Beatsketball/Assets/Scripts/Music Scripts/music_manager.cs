@@ -177,7 +177,9 @@ public class music_manager : MonoBehaviour {
 
 		if (playing && !facing_off) {
 			// If we are playing, but not facing off, spawn a standard dribble key_prompt for offense
-			key_prompts.add_prompt(new key_prompt(offense_p, key_prompts.dribble_key, Time.time + big_beat_interval*2));
+			//string key = key_prompts.dribble_key;
+			string key = key_prompts.get_random_key();
+			key_prompts.add_prompt(new key_prompt(offense_p, key, Time.time + big_beat_interval*2));
 		} else if (playing && facing_off) {
 			// If we are facing off, spawn a random key_prompt for both players
 			string key = key_prompts.get_random_key();
@@ -193,7 +195,7 @@ public class music_manager : MonoBehaviour {
 
 	// Returns true iff we are within beat_range seconds of a big beat
 	public static bool is_valid_big_frame() {
-		return Mathf.Abs(get_beat_displacement()) <= Music_Manager.beat_range;
+		return Mathf.Abs(get_big_beat_displacement()) <= Music_Manager.beat_range;
 	}
 
 	// Returns true iff we are within beat_range seconds of a given time

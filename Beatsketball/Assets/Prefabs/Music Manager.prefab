@@ -45,8 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Track: {fileID: 11400000, guid: 8ad75fa81b8eb6e49b4f48e4c0d5cbd8, type: 2}
-  beat_range: 0.15
+  beat_range: 0.18
   beats_per_playable_beat: 1
+  faceoff_timescale_increment: 0.05
   to_trigger_on_start_song: {fileID: 11400000, guid: 34fca488ae91b8b45aa6f7b87397413c,
     type: 2}
   to_trigger_on_stop_song: {fileID: 11400000, guid: a4fdfd22ecc9c1747847647791586722,
@@ -54,7 +55,6 @@ MonoBehaviour:
   to_trigger_on_beat: {fileID: 11400000, guid: 61895dffcb896ca459c8aea9bb8f6156, type: 2}
   to_trigger_on_big_beat: {fileID: 11400000, guid: ba06b58dd1a7b3d479db496fa33ca8bf,
     type: 2}
-  playing: {fileID: 11400000, guid: e7115211ae5bc7445b84ad2ad9701405, type: 2}
 --- !u!82 &4552430996586500098
 AudioSource:
   m_ObjectHideFlags: 0

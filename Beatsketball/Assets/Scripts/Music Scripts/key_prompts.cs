@@ -26,10 +26,6 @@ public static class key_prompts {
 			}
 		}
 
-		foreach(string key in keys_down) {
-			Debug.Log("Key that was just pressed: " + key);
-		}
-
 		// Set all successful prompts to be removed
 		List<key_prompt> to_remove = new List<key_prompt>();
 		foreach (key_prompt prompt in open_prompts[player_index]) {
@@ -37,9 +33,9 @@ public static class key_prompts {
 				if (keys_down.Contains(prompt.key)) {
 					// todo - You pressed the right key! Visual celebration!
 					Debug.Log("Pressed the correct key!: " + prompt.key);
+					Debug.Log("Current displacement from beat: " + music_manager.get_big_beat_displacement());
 					to_remove.Add(prompt);
-					bool result = keys_down.Remove(prompt.key);
-					Debug.Log("Result: " + result);
+					keys_down.Remove(prompt.key);
 				}
 			}
 		}
@@ -53,7 +49,7 @@ public static class key_prompts {
 		foreach (key_prompt prompt in open_prompts[player_index]) {
 			if (music_manager.missed_window(prompt.time_at_beat)) {
 				// todo - You missed this key prompt!
-				Debug.Log("You missed a key: " + prompt.key);
+				Debug.Log("Player: " + player_string + " missed a key: " + prompt.key);
 				to_remove.Add(prompt);
 				passed = false;
 			}
@@ -63,15 +59,11 @@ public static class key_prompts {
 		foreach (key_prompt failed_prompt in to_remove) {
 			open_prompts[player_index].Remove(failed_prompt);
 		}
-		
-		foreach (string key in keys_down) {
-			Debug.Log("Key that is still in keys_down: " + key);
-		}
 
 		// Check if any keys that were pressed on this frame were not correct
 		if (keys_down.Count > 0) {
 			// todo - You pressed a key that was not prompted, or badly timed!
-			Debug.Log("Player: " + player_index + " pressed an unprompted, or badly timed, key: " + keys_down[0]);
+			Debug.Log("Player: " + player_string + " pressed an unprompted, or badly timed, key: " + keys_down[0]);
 			passed = false;
 		}
 
