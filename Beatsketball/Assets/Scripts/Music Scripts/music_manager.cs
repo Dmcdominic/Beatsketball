@@ -8,12 +8,12 @@ public class music_manager : MonoBehaviour {
 	public track Track;
 	public float beat_range; // The leeway, in seconds, to land something on the beat
 	public int beats_per_playable_beat;
+	public float faceoff_timescale_increment;
 
 	public event_object to_trigger_on_start_song;
 	public event_object to_trigger_on_stop_song;
 	public event_object to_trigger_on_beat;
 	public event_object to_trigger_on_big_beat;
-	public bool_var playing;
 
 	// Private vars
 	private float beat_interval;
@@ -23,6 +23,13 @@ public class music_manager : MonoBehaviour {
 
 	public static AudioSource audioSource;
 
+	public static bool playing = false;
+	public static bool facing_off {
+		get { return _facing_off; }
+		set { Time.timeScale = 1; _facing_off = value; }
+	}
+	private static bool _facing_off = false;
+	public static int offense_p = 0;
 
 	// Singleton setup
 	public static music_manager Music_Manager;
@@ -45,28 +52,39 @@ public class music_manager : MonoBehaviour {
 	// Start the scene
 	private void Start() {
 		audioSource.clip = Track.song;
-		start_song();
+		start_song(0);
 	}
 
 	// Start the song, and the gameplay
-	private void start_song() {
+	private void start_song(int new_offense_p) {
+		offense_p = new_offense_p;
+		key_prompts.clear_all_prompts();
+
 		prev_disp = 0;
 		prev_big_disp = 0;
 		audioSource.Play();
 		to_trigger_on_start_song.Invoke();
-		playing.val = true;
+		facing_off = false;
+		playing = true;
 	}
 
 	// Stop the song, and the gameplay
 	private void stop_song() {
+		key_prompts.clear_all_prompts();
 		audioSource.Stop();
 		to_trigger_on_stop_song.Invoke();
-		playing.val = false;
+		facing_off = false;
+		playing = false;
+	}
+
+	private void start_faceoff() {
+		facing_off = true;
+		// todo - more changes here?
 	}
 
 	// Update is called once per frame
 	void Update() {
-		if (!playing.val) {
+		if (!playing) {
 			return;
 		}
 
@@ -86,6 +104,38 @@ public class music_manager : MonoBehaviour {
 			on_big_beat();
 		}
 		prev_big_disp = new_big_disp;
+
+		// Check all key prompt inputs
+		bool p1_pass = key_prompts.check_all_prompts(0);
+		bool p2_pass = key_prompts.check_all_prompts(1);
+
+		if (!facing_off) {
+			// Normal offensive key prompts
+			if (offense_p == 0 && !p1_pass) {
+				// todo - p1 loses possession here
+			} else if (offense_p == 1 && !p2_pass) {
+				// todo - p2 loses possession here
+			}
+		} else if (p1_pass ^ p2_pass) {
+			// Faceoff prompts, assuming exactly 1 player failed
+			if (offense_p == 0 && !p1_pass) {
+				// todo - p1 loses the faceoff and loses possession here
+			} else if (offense_p == 1 && !p2_pass) {
+				// todo - p2 loses the faceoff and loses possession here
+			} else if (offense_p == 0 && !p2_pass) {
+				// todo - p2 loses the faceoff and p1 continues
+			} else if (offense_p == 1 &&  !p1_pass) {
+				// todo - p1 loses the faceoff and p2 continues
+			}
+		}
+	}
+
+	// If you are facing off, steadily increase the timescale
+	private void FixedUpdate() {
+		if (!facing_off) {
+			return;
+		}
+		Time.timeScale += faceoff_timescale_increment * Time.fixedUnscaledDeltaTime;
 	}
 
 	// Returns, in seconds, how close the track is to the nearest beat (this frame).
@@ -124,6 +174,16 @@ public class music_manager : MonoBehaviour {
 	// Triggered every other beat
 	private void on_big_beat() {
 		to_trigger_on_big_beat.Invoke();
+
+		if (playing && !facing_off) {
+			// If we are playing, but not facing off, spawn a standard dribble key_prompt for offense
+			key_prompts.add_prompt(new key_prompt(offense_p, key_prompts.dribble_key, Time.time + big_beat_interval*2));
+		} else if (playing && facing_off) {
+			// If we are facing off, spawn a random key_prompt for both players
+			string key = key_prompts.get_random_key();
+			key_prompts.add_prompt(new key_prompt(0, key, Time.time + big_beat_interval * 2));
+			key_prompts.add_prompt(new key_prompt(1, key, Time.time + big_beat_interval * 2));
+		}
 	}
 
 	// Returns true iff we are within beat_range seconds of a beat
@@ -134,5 +194,15 @@ public class music_manager : MonoBehaviour {
 	// Returns true iff we are within beat_range seconds of a big beat
 	public static bool is_valid_big_frame() {
 		return Mathf.Abs(get_beat_displacement()) <= Music_Manager.beat_range;
+	}
+
+	// Returns true iff we are within beat_range seconds of a given time
+	public static bool is_valid_for_time(float time) {
+		return Mathf.Abs(Time.time - time) <= Music_Manager.beat_range;
+	}
+
+	// Returns true iff we have missed the valid window for a certain time
+	public static bool missed_window(float time) {
+		return time + Music_Manager.beat_range < Time.time;
 	}
 }

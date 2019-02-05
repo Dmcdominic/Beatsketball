@@ -4,16 +4,16 @@ using UnityEngine;
 
 public enum frame_result { good, fail, none };
 
+// THIS CLASS IS DEPRECATED - ALL FACEOFF LOGIC NOW HANDLED IN MUSIC_MANAGER.CS
 public class faceoff : MonoBehaviour {
 
 	public float timescale_increment;
 
-	public static bool facing_off = false;
+	//public static bool facing_off = false;
 	public static bool p1_pass = false;
 	public static bool p2_pass = false;
 	public static string p1_button = "A";
 	public static string p2_button = "A";
-	public static List<string> buttons = new List<string> { "A", "B", "X", "Y" };
 
 
 	private void Start() {
@@ -22,9 +22,9 @@ public class faceoff : MonoBehaviour {
 
 	// Set up a new pair of buttons
 	private void init_new_buttons() {
-		p1_button = buttons[Random.Range(0, buttons.Count - 1)];
-		p2_button = buttons[Random.Range(0, buttons.Count - 1)];
-		facing_off = true;
+		p1_button = key_prompts.get_random_key();
+		p2_button = key_prompts.get_random_key();
+		//facing_off = true;
 	}
 
 	// Time is up for this button pair. Check the results.
@@ -42,9 +42,9 @@ public class faceoff : MonoBehaviour {
 
 	// If you are facing off, steadily increase the timescale
 	private void FixedUpdate() {
-		if (!facing_off) {
-			return;
-		}
+		//if (!facing_off) {
+		//	return;
+		//}
 		Time.timeScale += timescale_increment * Time.fixedUnscaledDeltaTime;
 
 		frame_result p1_result = check_player_input(1);
@@ -67,7 +67,7 @@ public class faceoff : MonoBehaviour {
 		string postfix = (player == 1) ? "_1" : "_2";
 		bool good = false;
 
-		foreach (string Button in buttons) {
+		foreach (string Button in key_prompts.keys) {
 			if (Input.GetButtonDown(Button + "_1")) {
 				if (Button == current_button) {
 					good = true;
