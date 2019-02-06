@@ -52,13 +52,14 @@ public class music_manager : MonoBehaviour {
 	// Start the scene
 	private void Start() {
 		audioSource.clip = Track.song;
-		start_song(0);
+		start_offense(0);
 	}
 
 	// Start the song, and the gameplay
-	private void start_song(int new_offense_p) {
+	private void start_offense(int new_offense_p) {
 		offense_p = new_offense_p;
 		key_prompts.clear_all_prompts();
+		// todo - anything else needs to be set here?
 
 		prev_disp = 0;
 		prev_big_disp = 0;
@@ -79,6 +80,15 @@ public class music_manager : MonoBehaviour {
 
 	private void start_faceoff() {
 		facing_off = true;
+		// todo - destroy all current key prompts
+	}
+
+	private void end_faceoff(int winning_player_index) {
+		facing_off = false;
+		// todo - destroy all current key prompts
+		if (winning_player_index != offense_p) {
+			// todo - switch possession here
+		}
 	}
 
 	// Update is called once per frame
@@ -86,6 +96,13 @@ public class music_manager : MonoBehaviour {
 		if (!playing) {
 			return;
 		}
+
+		// Editor only check to manually start a faceoff
+#if UNITY_EDITOR
+		if (Input.GetButtonDown("Force_Faceoff")) {
+			start_faceoff();
+		}
+#endif
 
 		// Update audioSource pitch based on current timeScale
 		audioSource.pitch = Time.timeScale;
@@ -116,15 +133,11 @@ public class music_manager : MonoBehaviour {
 				// todo - p2 loses possession here
 			}
 		} else if (p1_pass ^ p2_pass) {
-			// Faceoff prompts, assuming exactly 1 player failed
-			if (offense_p == 0 && !p1_pass) {
-				// todo - p1 loses the faceoff and loses possession here
-			} else if (offense_p == 1 && !p2_pass) {
-				// todo - p2 loses the faceoff and loses possession here
-			} else if (offense_p == 0 && !p2_pass) {
-				// todo - p2 loses the faceoff and p1 continues
-			} else if (offense_p == 1 &&  !p1_pass) {
-				// todo - p1 loses the faceoff and p2 continues
+			// Faceoff end condition, assuming exactly 1 player failed
+			if (!p1_pass) {
+				end_faceoff(1);
+			} else if (!p2_pass) {
+				end_faceoff(0);
 			}
 		}
 	}
