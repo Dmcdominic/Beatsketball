@@ -79,7 +79,6 @@ public class music_manager : MonoBehaviour {
 
 	private void start_faceoff() {
 		facing_off = true;
-		// todo - more changes here?
 	}
 
 	// Update is called once per frame
