@@ -15,6 +15,11 @@ public class music_manager : MonoBehaviour {
 	public event_object to_trigger_on_big_beat;
 	public keyPrompt_event_object spawn_p1_keyPrompt;
 	public keyPrompt_event_object spawn_p2_keyPrompt;
+	public keyPrompt_event_object prompt_success;
+	public event_object p1_failed;
+	public event_object p2_failed;
+
+	// todo - need a bool that determines whether or not the offense player should be walking forward
 
 	public float beat_interval { get; private set; }
 	public float big_beat_interval { get; private set; }
@@ -81,8 +86,8 @@ public class music_manager : MonoBehaviour {
 	}
 
 	private void start_faceoff() {
+		delete_all_prompts();
 		facing_off = true;
-		// todo - destroy all current key prompts
 	}
 
 	private void end_faceoff(int winning_player_index) {
@@ -90,6 +95,8 @@ public class music_manager : MonoBehaviour {
 		delete_all_prompts();
 		if (winning_player_index != offense_p) {
 			// todo - switch possession here
+		} else {
+			// todo - defender falls over or something here
 		}
 	}
 
@@ -127,6 +134,13 @@ public class music_manager : MonoBehaviour {
 		bool p1_pass = key_prompts.check_all_prompts(0);
 		bool p2_pass = key_prompts.check_all_prompts(1);
 
+		if (!p1_pass) {
+			// todo - red X on p1 side
+		}
+		if (!p2_pass) {
+			// todo - red X on p2 side
+		}
+
 		if (!facing_off) {
 			// Normal offensive key prompts
 			if (offense_p == 0 && !p1_pass) {
@@ -146,7 +160,7 @@ public class music_manager : MonoBehaviour {
 
 	// If you are facing off, steadily increase the timescale
 	private void FixedUpdate() {
-		if (!facing_off) {
+		if (!facing_off || !playing) {
 			return;
 		}
 		Time.timeScale += faceoff_timescale_increment * Time.fixedUnscaledDeltaTime;
@@ -212,10 +226,20 @@ public class music_manager : MonoBehaviour {
 		key_prompts.add_prompt(prompt);
 	}
 
+	// Deletes a visual prompt, and plays checkmark
+	public static void clear_visual_prompt(key_prompt prompt) {
+		Music_Manager.prompt_success.Invoke(prompt);
+		// todo - this event should delete the visual prompt, and animate a checkmark off of it
+	}
+
 	// Deletes all flying keyprompts and clears them from the key_prompts lists
 	private void delete_all_prompts() {
-		// todo - delete all flying/visual keyprompts
-		// todo also - delete all flying/visual prompts when they succeed or fail
+		// Destroy all the visual keyprompts
+		GameObject[] all_prompts = GameObject.FindGameObjectsWithTag("prompt");
+		foreach (GameObject obj in all_prompts) {
+			Destroy(obj);
+		}
+		// Clear all the prompts in the key_prompts lists
 		key_prompts.clear_all_prompts();
 	}
 

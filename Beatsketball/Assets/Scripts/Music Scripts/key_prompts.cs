@@ -31,11 +31,11 @@ public static class key_prompts {
 		foreach (key_prompt prompt in open_prompts[player_index]) {
 			if (music_manager.is_valid_for_time(prompt.time_at_beat)) {
 				if (keys_down.Contains(prompt.key)) {
-					// todo - You pressed the right key! Visual celebration!
 					Debug.Log("Pressed the correct key!: " + prompt.key);
 					Debug.Log("Current displacement from beat: " + music_manager.get_big_beat_displacement());
 					to_remove.Add(prompt);
 					keys_down.Remove(prompt.key);
+					music_manager.clear_visual_prompt(prompt);
 				}
 			}
 		}
@@ -48,7 +48,6 @@ public static class key_prompts {
 		// Check if any prompts have missed their window
 		foreach (key_prompt prompt in open_prompts[player_index]) {
 			if (music_manager.missed_window(prompt.time_at_beat)) {
-				// todo - You missed this key prompt!
 				Debug.Log("Player: " + player_string + " missed a key: " + prompt.key);
 				to_remove.Add(prompt);
 				passed = false;
@@ -62,7 +61,6 @@ public static class key_prompts {
 
 		// Check if any keys that were pressed on this frame were not correct
 		if (keys_down.Count > 0) {
-			// todo - You pressed a key that was not prompted, or badly timed!
 			Debug.Log("Player: " + player_string + " pressed an unprompted, or badly timed, key: " + keys_down[0]);
 			passed = false;
 		}
@@ -93,5 +91,16 @@ public struct key_prompt {
 		player = _player;
 		key = _key;
 		time_at_beat = _time_at_beat;
+	}
+}
+
+// A struct which stores result == false if a prompt was missed or wrong button pressed,
+// and result == true otherwise. If a prompt was hit on the beat, includes the prompt as well.
+public struct prompt_result {
+	public bool result;
+	public key_prompt prompt;
+	public prompt_result(bool _result, key_prompt _prompt) {
+		result = _result;
+		prompt = _prompt;
 	}
 }

@@ -37,6 +37,7 @@ public class prompt_spawner : MonoBehaviour {
 				break;
 		}
 		new_prompt.GetComponent<Image>().color = new_color;
+		new_prompt.GetComponent<keyprompt_id>().key_Prompt = prompt;
 
 		new_prompt.transform.position = transform.position;
 		new_prompt.velocity = (prompt_target.transform.position - new_prompt.transform.position) / (music_manager.Music_Manager.big_beat_interval * 2);
