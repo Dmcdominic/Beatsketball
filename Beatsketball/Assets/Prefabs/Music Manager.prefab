@@ -55,6 +55,8 @@ MonoBehaviour:
   to_trigger_on_beat: {fileID: 11400000, guid: 61895dffcb896ca459c8aea9bb8f6156, type: 2}
   to_trigger_on_big_beat: {fileID: 11400000, guid: ba06b58dd1a7b3d479db496fa33ca8bf,
     type: 2}
+  spawn_p1_keyPrompt: {fileID: 11400000, guid: 8a8a7c9f5a59e944fb734f6045cb232f, type: 2}
+  spawn_p2_keyPrompt: {fileID: 11400000, guid: b85f810f3a971a54284d96e96af28c1a, type: 2}
 --- !u!82 &4552430996586500098
 AudioSource:
   m_ObjectHideFlags: 0

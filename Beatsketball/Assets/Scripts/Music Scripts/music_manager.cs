@@ -7,17 +7,19 @@ public class music_manager : MonoBehaviour {
 	// Public fields
 	public track Track;
 	public float beat_range; // The leeway, in seconds, to land something on the beat
-	public int beats_per_playable_beat;
 	public float faceoff_timescale_increment;
 
 	public event_object to_trigger_on_start_song;
 	public event_object to_trigger_on_stop_song;
 	public event_object to_trigger_on_beat;
 	public event_object to_trigger_on_big_beat;
+	public keyPrompt_event_object spawn_p1_keyPrompt;
+	public keyPrompt_event_object spawn_p2_keyPrompt;
+
+	public float beat_interval { get; private set; }
+	public float big_beat_interval { get; private set; }
 
 	// Private vars
-	private float beat_interval;
-	private float big_beat_interval;
 	private float prev_disp = 0;
 	private float prev_big_disp = 0;
 
@@ -45,7 +47,7 @@ public class music_manager : MonoBehaviour {
 		Music_Manager = this;
 		DontDestroyOnLoad(gameObject);
 		audioSource = GetComponentInChildren<AudioSource>();
-		beat_interval = (60f / Track.bpm) * (float)beats_per_playable_beat;
+		beat_interval = (60f / Track.bpm);
 		big_beat_interval = beat_interval * 2f;
 	}
 
@@ -58,7 +60,7 @@ public class music_manager : MonoBehaviour {
 	// Start the song, and the gameplay
 	private void start_offense(int new_offense_p) {
 		offense_p = new_offense_p;
-		key_prompts.clear_all_prompts();
+		delete_all_prompts();
 		// todo - anything else needs to be set here?
 
 		prev_disp = 0;
@@ -71,7 +73,7 @@ public class music_manager : MonoBehaviour {
 
 	// Stop the song, and the gameplay
 	private void stop_song() {
-		key_prompts.clear_all_prompts();
+		delete_all_prompts();
 		audioSource.Stop();
 		to_trigger_on_stop_song.Invoke();
 		facing_off = false;
@@ -85,7 +87,7 @@ public class music_manager : MonoBehaviour {
 
 	private void end_faceoff(int winning_player_index) {
 		facing_off = false;
-		// todo - destroy all current key prompts
+		delete_all_prompts();
 		if (winning_player_index != offense_p) {
 			// todo - switch possession here
 		}
@@ -191,13 +193,30 @@ public class music_manager : MonoBehaviour {
 			// If we are playing, but not facing off, spawn a standard dribble key_prompt for offense
 			//string key = key_prompts.dribble_key;
 			string key = key_prompts.get_random_key();
-			key_prompts.add_prompt(new key_prompt(offense_p, key, Time.time + big_beat_interval*2));
+			make_prompt(new key_prompt(offense_p, key, Time.time + big_beat_interval*2));
 		} else if (playing && facing_off) {
 			// If we are facing off, spawn a random key_prompt for both players
 			string key = key_prompts.get_random_key();
-			key_prompts.add_prompt(new key_prompt(0, key, Time.time + big_beat_interval * 2));
-			key_prompts.add_prompt(new key_prompt(1, key, Time.time + big_beat_interval * 2));
+			make_prompt(new key_prompt(0, key, Time.time + big_beat_interval * 2));
+			make_prompt(new key_prompt(1, key, Time.time + big_beat_interval * 2));
 		}
+	}
+
+	// Spawns flying keyprompts, and adds them to the key_prompts list
+	private void make_prompt(key_prompt prompt) {
+		if (prompt.player == 0) {
+			spawn_p1_keyPrompt.Invoke(prompt);
+		} else {
+			spawn_p2_keyPrompt.Invoke(prompt);
+		}
+		key_prompts.add_prompt(prompt);
+	}
+
+	// Deletes all flying keyprompts and clears them from the key_prompts lists
+	private void delete_all_prompts() {
+		// todo - delete all flying/visual keyprompts
+		// todo also - delete all flying/visual prompts when they succeed or fail
+		key_prompts.clear_all_prompts();
 	}
 
 	// Returns true iff we are within beat_range seconds of a beat
