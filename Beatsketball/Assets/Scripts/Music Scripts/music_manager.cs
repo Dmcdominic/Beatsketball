@@ -232,11 +232,11 @@ public class music_manager : MonoBehaviour {
 		if (playing && !facing_off) {
 			// If we are playing, but not facing off, spawn a standard dribble key_prompt for offense
 			//string key = key_prompts.dribble_key;
-			string key = key_prompts.get_random_key();
+			string key = key_prompts.get_random_key(4);
 			make_prompt(new key_prompt(offense_p, key, Time.time + big_beat_interval*2));
 		} else if (playing && facing_off) {
 			// If we are facing off, spawn a random key_prompt for both players
-			string key = key_prompts.get_random_key();
+			string key = key_prompts.get_random_key(2);
 			make_prompt(new key_prompt(0, key, Time.time + big_beat_interval * 2));
 			make_prompt(new key_prompt(1, key, Time.time + big_beat_interval * 2));
 		}

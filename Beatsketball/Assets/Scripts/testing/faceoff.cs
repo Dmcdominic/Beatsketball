@@ -22,8 +22,8 @@ public class faceoff : MonoBehaviour {
 
 	// Set up a new pair of buttons
 	private void init_new_buttons() {
-		p1_button = key_prompts.get_random_key();
-		p2_button = key_prompts.get_random_key();
+		p1_button = key_prompts.get_random_key(2);
+		p2_button = key_prompts.get_random_key(2);
 		//facing_off = true;
 	}
 

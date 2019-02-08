@@ -75,8 +75,8 @@ public static class key_prompts {
 	}
 
 	// Returns the string for a random key in the set
-	public static string get_random_key() {
-		return keys[Random.Range(0, keys.Count - 1)];
+	public static string get_random_key(int total_keys) {
+		return keys[Random.Range(0, Mathf.Clamp(total_keys, 1, keys.Count))];
 	}
 
 }
