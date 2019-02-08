@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3425984353022223380}
   - component: {fileID: 3808950290456919566}
   - component: {fileID: 7266560759399053540}
+  - component: {fileID: 8852637739437054002}
   m_Layer: 5
   m_Name: Visual keyprompt
   m_TagString: prompt
@@ -110,6 +111,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64483898f72356f449ef092bc8da444b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  prompt_success: {fileID: 11400000, guid: 844e0af7c15ce4642b2ac7e607f4b18c, type: 2}
+--- !u!95 &8852637739437054002
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3425984353022223378}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 12a06dd6e012c42488adb5795ee23a23, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &3425984353236895938
 GameObject:
   m_ObjectHideFlags: 0

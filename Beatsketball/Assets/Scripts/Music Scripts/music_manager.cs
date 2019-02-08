@@ -19,7 +19,7 @@ public class music_manager : MonoBehaviour {
 	public event_object p1_failed;
 	public event_object p2_failed;
 
-	// todo - need a bool that determines whether or not the offense player should be walking forward
+	// todo - need a bool that determines whether or not the offense player should be walking forward? False during faceoff.
 
 	public float beat_interval { get; private set; }
 	public float big_beat_interval { get; private set; }
@@ -33,7 +33,7 @@ public class music_manager : MonoBehaviour {
 	public static bool playing = false;
 	public static bool facing_off {
 		get { return _facing_off; }
-		set { Time.timeScale = 1; _facing_off = value; }
+		set { _facing_off = value; }
 	}
 	private static bool _facing_off = false;
 	public static int offense_p = 0;
@@ -76,6 +76,16 @@ public class music_manager : MonoBehaviour {
 		playing = true;
 	}
 
+	// Switches the possession to player with index new_offense_p.
+	// This may be temporary, depending on how transitioning between possessions goes.
+	private void switch_possession(int new_offense_p) {
+		offense_p = new_offense_p;
+		delete_all_prompts();
+		// todo - anything else needs to be set here?
+		facing_off = false;
+		playing = true;
+	}
+
 	// Stop the song, and the gameplay
 	private void stop_song() {
 		delete_all_prompts();
@@ -95,6 +105,7 @@ public class music_manager : MonoBehaviour {
 		delete_all_prompts();
 		if (winning_player_index != offense_p) {
 			// todo - switch possession here
+			switch_possession(winning_player_index);
 		} else {
 			// todo - defender falls over or something here
 		}
@@ -136,17 +147,21 @@ public class music_manager : MonoBehaviour {
 
 		if (!p1_pass) {
 			// todo - red X on p1 side
+			p1_failed.Invoke();
 		}
 		if (!p2_pass) {
 			// todo - red X on p2 side
+			p2_failed.Invoke();
 		}
 
 		if (!facing_off) {
 			// Normal offensive key prompts
 			if (offense_p == 0 && !p1_pass) {
 				// todo - p1 loses possession here
+				switch_possession(1);
 			} else if (offense_p == 1 && !p2_pass) {
 				// todo - p2 loses possession here
+				switch_possession(0);
 			}
 		} else if (p1_pass ^ p2_pass) {
 			// Faceoff end condition, assuming exactly 1 player failed
@@ -160,10 +175,14 @@ public class music_manager : MonoBehaviour {
 
 	// If you are facing off, steadily increase the timescale
 	private void FixedUpdate() {
-		if (!facing_off || !playing) {
+		if (!playing) {
 			return;
 		}
-		Time.timeScale += faceoff_timescale_increment * Time.fixedUnscaledDeltaTime;
+		if (facing_off) {
+			Time.timeScale += faceoff_timescale_increment * Time.fixedUnscaledDeltaTime;
+		} else if (Time.timeScale > 1) {
+			Time.timeScale = Mathf.Max(1, Time.timeScale - faceoff_timescale_increment * 10f * Time.fixedUnscaledDeltaTime);
+		}
 	}
 
 	// Returns, in seconds, how close the track is to the nearest beat (this frame).
@@ -229,7 +248,6 @@ public class music_manager : MonoBehaviour {
 	// Deletes a visual prompt, and plays checkmark
 	public static void clear_visual_prompt(key_prompt prompt) {
 		Music_Manager.prompt_success.Invoke(prompt);
-		// todo - this event should delete the visual prompt, and animate a checkmark off of it
 	}
 
 	// Deletes all flying keyprompts and clears them from the key_prompts lists
