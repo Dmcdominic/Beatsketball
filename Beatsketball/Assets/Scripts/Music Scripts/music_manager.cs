@@ -98,6 +98,7 @@ public class music_manager : MonoBehaviour {
 	private void start_faceoff() {
 		delete_all_prompts();
 		facing_off = true;
+		SoundManager.instance.playAirhorn();
 	}
 
 	private void end_faceoff(int winning_player_index) {
@@ -117,12 +118,16 @@ public class music_manager : MonoBehaviour {
 			return;
 		}
 
-		// Editor only check to manually start a faceoff
-#if UNITY_EDITOR
+		// Manually initiate a faceoff, or force a possession swap.
+		// TODO - remove this, or make it editor only
 		if (Input.GetButtonDown("Force_Faceoff")) {
 			start_faceoff();
 		}
-#endif
+		if (Input.GetButtonDown("Force_P1_Offence")) {
+			switch_possession(0);
+		} else if (Input.GetButtonDown("Force_P2_Offence")) {
+			switch_possession(1);
+		}
 
 		// Update audioSource pitch based on current timeScale
 		audioSource.pitch = Time.timeScale;
@@ -148,10 +153,12 @@ public class music_manager : MonoBehaviour {
 		if (!p1_pass) {
 			// todo - red X on p1 side
 			p1_failed.Invoke();
+			SoundManager.instance.playBuzzer();
 		}
 		if (!p2_pass) {
 			// todo - red X on p2 side
 			p2_failed.Invoke();
+			SoundManager.instance.playBuzzer();
 		}
 
 		if (!facing_off) {
@@ -245,9 +252,10 @@ public class music_manager : MonoBehaviour {
 		key_prompts.add_prompt(prompt);
 	}
 
-	// Deletes a visual prompt, and plays checkmark
+	// Clears a visual prompt that was successful, and plays checkmark
 	public static void clear_visual_prompt(key_prompt prompt) {
 		Music_Manager.prompt_success.Invoke(prompt);
+		SoundManager.instance.playBallBounce();
 	}
 
 	// Deletes all flying keyprompts and clears them from the key_prompts lists
