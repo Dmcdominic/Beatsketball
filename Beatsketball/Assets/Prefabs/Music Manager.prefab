@@ -46,8 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Track: {fileID: 11400000, guid: 8ad75fa81b8eb6e49b4f48e4c0d5cbd8, type: 2}
   beat_range: 0.18
-  beats_per_playable_beat: 1
-  faceoff_timescale_increment: 0.05
+  faceoff_timescale_increment: 0.035
   to_trigger_on_start_song: {fileID: 11400000, guid: 34fca488ae91b8b45aa6f7b87397413c,
     type: 2}
   to_trigger_on_stop_song: {fileID: 11400000, guid: a4fdfd22ecc9c1747847647791586722,
@@ -55,6 +54,11 @@ MonoBehaviour:
   to_trigger_on_beat: {fileID: 11400000, guid: 61895dffcb896ca459c8aea9bb8f6156, type: 2}
   to_trigger_on_big_beat: {fileID: 11400000, guid: ba06b58dd1a7b3d479db496fa33ca8bf,
     type: 2}
+  spawn_p1_keyPrompt: {fileID: 11400000, guid: 8a8a7c9f5a59e944fb734f6045cb232f, type: 2}
+  spawn_p2_keyPrompt: {fileID: 11400000, guid: b85f810f3a971a54284d96e96af28c1a, type: 2}
+  prompt_success: {fileID: 11400000, guid: 844e0af7c15ce4642b2ac7e607f4b18c, type: 2}
+  p1_failed: {fileID: 11400000, guid: 4f532d4e1fc7bc7449baf5d99bc67194, type: 2}
+  p2_failed: {fileID: 11400000, guid: 7ce7c3a90a0846844af3993f58da1775, type: 2}
 --- !u!82 &4552430996586500098
 AudioSource:
   m_ObjectHideFlags: 0

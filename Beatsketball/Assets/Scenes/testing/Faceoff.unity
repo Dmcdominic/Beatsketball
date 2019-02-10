@@ -200,7 +200,7 @@ GameObject:
   - component: {fileID: 1368454694}
   - component: {fileID: 1368454693}
   m_Layer: 0
-  m_Name: TextMeshPro Text
+  m_Name: Faceoff Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -7,17 +7,24 @@ public class music_manager : MonoBehaviour {
 	// Public fields
 	public track Track;
 	public float beat_range; // The leeway, in seconds, to land something on the beat
-	public int beats_per_playable_beat;
 	public float faceoff_timescale_increment;
 
 	public event_object to_trigger_on_start_song;
 	public event_object to_trigger_on_stop_song;
 	public event_object to_trigger_on_beat;
 	public event_object to_trigger_on_big_beat;
+	public keyPrompt_event_object spawn_p1_keyPrompt;
+	public keyPrompt_event_object spawn_p2_keyPrompt;
+	public keyPrompt_event_object prompt_success;
+	public event_object p1_failed;
+	public event_object p2_failed;
+
+	// todo - need a bool that determines whether or not the offense player should be walking forward? False during faceoff.
+
+	public float beat_interval { get; private set; }
+	public float big_beat_interval { get; private set; }
 
 	// Private vars
-	private float beat_interval;
-	private float big_beat_interval;
 	private float prev_disp = 0;
 	private float prev_big_disp = 0;
 
@@ -26,7 +33,7 @@ public class music_manager : MonoBehaviour {
 	public static bool playing = false;
 	public static bool facing_off {
 		get { return _facing_off; }
-		set { Time.timeScale = 1; _facing_off = value; }
+		set { _facing_off = value; }
 	}
 	private static bool _facing_off = false;
 	public static int offense_p = 0;
@@ -45,7 +52,7 @@ public class music_manager : MonoBehaviour {
 		Music_Manager = this;
 		DontDestroyOnLoad(gameObject);
 		audioSource = GetComponentInChildren<AudioSource>();
-		beat_interval = (60f / Track.bpm) * (float)beats_per_playable_beat;
+		beat_interval = (60f / Track.bpm);
 		big_beat_interval = beat_interval * 2f;
 	}
 
@@ -58,7 +65,7 @@ public class music_manager : MonoBehaviour {
 	// Start the song, and the gameplay
 	private void start_offense(int new_offense_p) {
 		offense_p = new_offense_p;
-		key_prompts.clear_all_prompts();
+		delete_all_prompts();
 		// todo - anything else needs to be set here?
 
 		prev_disp = 0;
@@ -69,9 +76,19 @@ public class music_manager : MonoBehaviour {
 		playing = true;
 	}
 
+	// Switches the possession to player with index new_offense_p.
+	// This may be temporary, depending on how transitioning between possessions goes.
+	private void switch_possession(int new_offense_p) {
+		offense_p = new_offense_p;
+		delete_all_prompts();
+		// todo - anything else needs to be set here?
+		facing_off = false;
+		playing = true;
+	}
+
 	// Stop the song, and the gameplay
 	private void stop_song() {
-		key_prompts.clear_all_prompts();
+		delete_all_prompts();
 		audioSource.Stop();
 		to_trigger_on_stop_song.Invoke();
 		facing_off = false;
@@ -79,15 +96,19 @@ public class music_manager : MonoBehaviour {
 	}
 
 	private void start_faceoff() {
+		delete_all_prompts();
 		facing_off = true;
-		// todo - destroy all current key prompts
+		SoundManager.instance.playAirhorn();
 	}
 
 	private void end_faceoff(int winning_player_index) {
 		facing_off = false;
-		// todo - destroy all current key prompts
+		delete_all_prompts();
 		if (winning_player_index != offense_p) {
 			// todo - switch possession here
+			switch_possession(winning_player_index);
+		} else {
+			// todo - defender falls over or something here
 		}
 	}
 
@@ -97,12 +118,16 @@ public class music_manager : MonoBehaviour {
 			return;
 		}
 
-		// Editor only check to manually start a faceoff
-#if UNITY_EDITOR
+		// Manually initiate a faceoff, or force a possession swap.
+		// TODO - remove this, or make it editor only
 		if (Input.GetButtonDown("Force_Faceoff")) {
 			start_faceoff();
 		}
-#endif
+		if (Input.GetButtonDown("Force_P1_Offence")) {
+			switch_possession(0);
+		} else if (Input.GetButtonDown("Force_P2_Offence")) {
+			switch_possession(1);
+		}
 
 		// Update audioSource pitch based on current timeScale
 		audioSource.pitch = Time.timeScale;
@@ -125,12 +150,25 @@ public class music_manager : MonoBehaviour {
 		bool p1_pass = key_prompts.check_all_prompts(0);
 		bool p2_pass = key_prompts.check_all_prompts(1);
 
+		if (!p1_pass) {
+			// todo - red X on p1 side
+			p1_failed.Invoke();
+			SoundManager.instance.playBuzzer();
+		}
+		if (!p2_pass) {
+			// todo - red X on p2 side
+			p2_failed.Invoke();
+			SoundManager.instance.playBuzzer();
+		}
+
 		if (!facing_off) {
 			// Normal offensive key prompts
 			if (offense_p == 0 && !p1_pass) {
 				// todo - p1 loses possession here
+				switch_possession(1);
 			} else if (offense_p == 1 && !p2_pass) {
 				// todo - p2 loses possession here
+				switch_possession(0);
 			}
 		} else if (p1_pass ^ p2_pass) {
 			// Faceoff end condition, assuming exactly 1 player failed
@@ -144,10 +182,14 @@ public class music_manager : MonoBehaviour {
 
 	// If you are facing off, steadily increase the timescale
 	private void FixedUpdate() {
-		if (!facing_off) {
+		if (!playing) {
 			return;
 		}
-		Time.timeScale += faceoff_timescale_increment * Time.fixedUnscaledDeltaTime;
+		if (facing_off) {
+			Time.timeScale += faceoff_timescale_increment * Time.fixedUnscaledDeltaTime;
+		} else if (Time.timeScale > 1) {
+			Time.timeScale = Mathf.Max(1, Time.timeScale - faceoff_timescale_increment * 10f * Time.fixedUnscaledDeltaTime);
+		}
 	}
 
 	// Returns, in seconds, how close the track is to the nearest beat (this frame).
@@ -190,14 +232,41 @@ public class music_manager : MonoBehaviour {
 		if (playing && !facing_off) {
 			// If we are playing, but not facing off, spawn a standard dribble key_prompt for offense
 			//string key = key_prompts.dribble_key;
-			string key = key_prompts.get_random_key();
-			key_prompts.add_prompt(new key_prompt(offense_p, key, Time.time + big_beat_interval*2));
+			string key = key_prompts.get_random_key(4);
+			make_prompt(new key_prompt(offense_p, key, Time.time + big_beat_interval*2));
 		} else if (playing && facing_off) {
 			// If we are facing off, spawn a random key_prompt for both players
-			string key = key_prompts.get_random_key();
-			key_prompts.add_prompt(new key_prompt(0, key, Time.time + big_beat_interval * 2));
-			key_prompts.add_prompt(new key_prompt(1, key, Time.time + big_beat_interval * 2));
+			string key = key_prompts.get_random_key(2);
+			make_prompt(new key_prompt(0, key, Time.time + big_beat_interval * 2));
+			make_prompt(new key_prompt(1, key, Time.time + big_beat_interval * 2));
 		}
+	}
+
+	// Spawns flying keyprompts, and adds them to the key_prompts list
+	private void make_prompt(key_prompt prompt) {
+		if (prompt.player == 0) {
+			spawn_p1_keyPrompt.Invoke(prompt);
+		} else {
+			spawn_p2_keyPrompt.Invoke(prompt);
+		}
+		key_prompts.add_prompt(prompt);
+	}
+
+	// Clears a visual prompt that was successful, and plays checkmark
+	public static void clear_visual_prompt(key_prompt prompt) {
+		Music_Manager.prompt_success.Invoke(prompt);
+		SoundManager.instance.playBallBounce();
+	}
+
+	// Deletes all flying keyprompts and clears them from the key_prompts lists
+	private void delete_all_prompts() {
+		// Destroy all the visual keyprompts
+		GameObject[] all_prompts = GameObject.FindGameObjectsWithTag("prompt");
+		foreach (GameObject obj in all_prompts) {
+			Destroy(obj);
+		}
+		// Clear all the prompts in the key_prompts lists
+		key_prompts.clear_all_prompts();
 	}
 
 	// Returns true iff we are within beat_range seconds of a beat
