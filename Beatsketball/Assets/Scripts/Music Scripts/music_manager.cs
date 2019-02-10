@@ -86,21 +86,24 @@ public class music_manager : MonoBehaviour {
 		playing = true;
 	}
 
-	// Stop the song, and the gameplay
-	private void stop_song() {
+	// Call this when the game should end. Stop the song, and the gameplay
+	private void game_over() {
 		delete_all_prompts();
 		audioSource.Stop();
 		to_trigger_on_stop_song.Invoke();
 		facing_off = false;
 		playing = false;
+		// Todo - anything else here? Show the score and buttons for: "Rematch" and "Main Menu"?
 	}
 
+	// Call this to initiate a faceoff
 	private void start_faceoff() {
 		delete_all_prompts();
 		facing_off = true;
 		SoundManager.instance.playAirhorn();
 	}
 
+	// Call this when someone wins the faceoff
 	private void end_faceoff(int winning_player_index) {
 		facing_off = false;
 		delete_all_prompts();
@@ -108,7 +111,7 @@ public class music_manager : MonoBehaviour {
 			// todo - switch possession here
 			switch_possession(winning_player_index);
 		} else {
-			// todo - defender falls over or something here
+			// todo - defender falls over or something here?
 		}
 	}
 
@@ -116,6 +119,9 @@ public class music_manager : MonoBehaviour {
 	void Update() {
 		if (!playing) {
 			return;
+		} else if (playing && !audioSource.isPlaying) {
+			// todo - this means song has ended(?), so end the game
+			game_over();
 		}
 
 		// Manually initiate a faceoff, or force a possession swap.
@@ -151,12 +157,10 @@ public class music_manager : MonoBehaviour {
 		bool p2_pass = key_prompts.check_all_prompts(1);
 
 		if (!p1_pass) {
-			// todo - red X on p1 side
 			p1_failed.Invoke();
 			SoundManager.instance.playBuzzer();
 		}
 		if (!p2_pass) {
-			// todo - red X on p2 side
 			p2_failed.Invoke();
 			SoundManager.instance.playBuzzer();
 		}
@@ -287,5 +291,10 @@ public class music_manager : MonoBehaviour {
 	// Returns true iff we have missed the valid window for a certain time
 	public static bool missed_window(float time) {
 		return time + Music_Manager.beat_range < Time.time;
+	}
+
+	// Returns the amount of time left before the song ends
+	public static float song_time_remaining() {
+		return audioSource.clip.length - audioSource.time;
 	}
 }
