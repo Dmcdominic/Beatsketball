@@ -23,7 +23,7 @@ public class offense_script : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float p1_vertical_input = Input.GetAxisDown("Vertical_1");
+        float p1_vertical_input = Input.GetAxis("Vertical_1");
 
         moveDirection = new Vector3(0, 0, 0.25F);
         forward = new Vector3(0.025F, 0, 0);

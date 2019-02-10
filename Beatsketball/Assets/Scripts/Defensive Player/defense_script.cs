@@ -20,7 +20,7 @@ public class defense_script : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float p2_vertical_input = Input.GetAxisDown("Vertical_2");
+        float p2_vertical_input = Input.GetAxis("Vertical_2");
 
         moveDirection = new Vector3(0, 0, 0.25F);
 
