@@ -65,13 +65,13 @@ public class defense_script : MonoBehaviour {
 		}
 
 		// switch defensive player
-		bool set0_switch = player_set_index == 0 && offense.transform.position.x > defenders[current_defender].transform.position.x;
-		bool set1_switch = player_set_index == 1 && offense.transform.position.x < defenders[current_defender].transform.position.x;
-		if (set0_switch || set1_switch) {
+		bool set0_switch = player_set_index == 0 && offense.transform.position.x > defenders[current_defender].transform.position.x && music_manager.offense_p == 0;
+		bool set1_switch = player_set_index == 1 && offense.transform.position.x < defenders[current_defender].transform.position.x && music_manager.offense_p == 1;
+		if ((set0_switch || set1_switch) && music_manager.shooting == shooting_state.not) {
 			if (current_defender < 2) {
 				current_defender++;
 			} else {
-				// todo - transition to shooting
+				music_manager.ready_to_shoot();
 			}
 		}
 

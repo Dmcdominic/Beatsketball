@@ -35,8 +35,13 @@ public class music_manager : MonoBehaviour {
 	public static bool playing = false;
 	public static bool facing_off = false;
 	public static bool just_cleared_buffer = false;
+	public static shooting_state shooting = shooting_state.not;
 
 	public static int offense_p = 0;
+	public static int button_complexity = 2;
+
+	public static int p1_score = 0;
+	public static int p2_score = 0;
 
 	// Singleton setup
 	public static music_manager Music_Manager;
@@ -64,14 +69,10 @@ public class music_manager : MonoBehaviour {
 
 	// Start the song, and the gameplay
 	private void start_offense(int new_offense_p) {
-		offense_p = new_offense_p;
-		delete_all_prompts();
+		switch_possession(new_offense_p);
 		// todo - anything else needs to be set here?
-
-		prev_disp = 0;
-		prev_big_disp = 0;
-		facing_off = false;
-		playing = true;
+		p1_score = 0;
+		p2_score = 0;
 		audioSource.Play();
 		to_trigger_on_start_song.Invoke();
 	}
@@ -84,8 +85,10 @@ public class music_manager : MonoBehaviour {
 		// todo - anything else needs to be set here?
 		prev_disp = 0;
 		prev_big_disp = 0;
+		button_complexity = 2;
 		facing_off = false;
 		playing = true;
+		shooting = shooting_state.not;
 	}
 
 	// Call this when the game should end. Stop the song, and the gameplay
@@ -113,6 +116,7 @@ public class music_manager : MonoBehaviour {
 			// todo - cheering here?
 			switch_possession(winning_player_index);
 		} else {
+			button_complexity++;
 			// todo - cheering here?
 			// todo - defender falls over or something here?
 		}
@@ -239,14 +243,19 @@ public class music_manager : MonoBehaviour {
 
 		if (playing && !facing_off) {
 			// If we are playing, but not facing off, spawn a standard dribble key_prompt for offense
-			//string key = key_prompts.dribble_key;
-			string key = key_prompts.get_random_key(4);
-			make_prompt(new key_prompt(offense_p, key, Time.time + big_beat_interval*2));
+			if (shooting == shooting_state.waiting) {
+				string key = key_prompts.shoot_key;
+				make_prompt(new key_prompt(offense_p, key, Time.time + big_beat_interval * 2, true));
+				shooting = shooting_state.on_its_way;
+			} else if (shooting == shooting_state.not) {
+				string key = key_prompts.get_random_key(button_complexity);
+				make_prompt(new key_prompt(offense_p, key, Time.time + big_beat_interval * 2, false));
+			}
 		} else if (playing && facing_off) {
 			// If we are facing off, spawn a random key_prompt for both players
-			string key = key_prompts.get_random_key(2);
-			make_prompt(new key_prompt(0, key, Time.time + big_beat_interval * 2));
-			make_prompt(new key_prompt(1, key, Time.time + big_beat_interval * 2));
+			string key = key_prompts.get_random_key(button_complexity);
+			make_prompt(new key_prompt(0, key, Time.time + big_beat_interval * 2, false));
+			make_prompt(new key_prompt(1, key, Time.time + big_beat_interval * 2, false));
 		}
 	}
 
@@ -313,6 +322,28 @@ public class music_manager : MonoBehaviour {
 		just_cleared_buffer = true;
 		yield return new WaitForSeconds(just_cleared_buffer_time);
 		just_cleared_buffer = false;
+	}
+
+	// Call this once the offense has passed all the defenders and is ready to shoot
+	public static void ready_to_shoot() {
+		shooting = shooting_state.waiting;
+		// todo - anything else here? Cheering?
+	}
+
+	// Shoot the ball!
+	public void shoot_the_ball(int player_index) {
+		Debug.Log("Player " + player_index + " shot the ball!");
+		shooting = shooting_state.shot;
+		// todo - shooting animation, maybe sound effects
+		// todo - increment score after delay
+		// todo - switch possession after the basket is scored
+		if (player_index == 0) {
+			p1_score += 2;
+			switch_possession(1);
+		} else {
+			p2_score += 2;
+			switch_possession(0);
+		}
 	}
 }
 

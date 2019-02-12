@@ -11,6 +11,8 @@ public class SoundManager : MonoBehaviour {
 
 	public static SoundManager instance = null;
 
+	public float airhorn_chain_odds;
+
 	public float lowPitchRange;
 	public float highPitchRange;
 
@@ -42,6 +44,14 @@ public class SoundManager : MonoBehaviour {
 	public void playAirhorn() {
 		airhorn.pitch = Random.Range(lowPitchRange, highPitchRange);
 		airhorn.Play();
+		StartCoroutine(airhorn_chain());
+	}
+
+	private IEnumerator airhorn_chain() {
+		yield return new WaitForSecondsRealtime(0.17f);
+		if (Random.Range(0, 1f) < airhorn_chain_odds) {
+			playAirhorn();
+		}
 	}
 
 	public void playBuzzer() {

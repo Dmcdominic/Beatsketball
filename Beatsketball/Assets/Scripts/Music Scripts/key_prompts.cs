@@ -6,8 +6,8 @@ public static class key_prompts {
 
 	public static List<key_prompt>[] open_prompts = new List<key_prompt>[] { new List<key_prompt>(), new List<key_prompt>() };
 
-	public static readonly List<string> keys = new List<string> { "A", "B", "X", "Y" };
-	public static readonly string dribble_key = "B";
+	public static readonly List<string> keys = new List<string> { "B", "A", "Y", "X" };
+	public static readonly string shoot_key = "X";
 
 
 	public static void add_prompt(key_prompt prompt) {
@@ -26,20 +26,6 @@ public static class key_prompts {
 			}
 		}
 
-		// testing - todo: remove
-		if (Input.GetAxisRaw("Shoot_1_B0") > 0) {
-			Debug.Log("shoot_1_B0");
-		}
-		if (Input.GetAxisRaw("Shoot_1_B1") > 0) {
-			Debug.Log("shoot_1_B1");
-		}
-		if (Input.GetAxisRaw("Shoot_2_B0") > 0) {
-			Debug.Log("shoot_2_B0");
-		}
-		if (Input.GetAxisRaw("Shoot_2_B1") > 0) {
-			Debug.Log("shoot_2_B1");
-		}
-
 		// Set all successful prompts to be removed
 		List<key_prompt> to_remove = new List<key_prompt>();
 		foreach (key_prompt prompt in open_prompts[player_index]) {
@@ -50,6 +36,12 @@ public static class key_prompts {
 					to_remove.Add(prompt);
 					keys_down.Remove(prompt.key);
 					music_manager.clear_visual_prompt(prompt);
+					// Check if its a shooting prompt
+					if (prompt.shooting) {
+						music_manager.Music_Manager.shoot_the_ball(player_index);
+						// todo - should we just return here?
+						return true;
+					}
 				}
 			}
 		}
@@ -101,10 +93,12 @@ public struct key_prompt {
 	public int player;
 	public string key;
 	public float time_at_beat;
-	public key_prompt(int _player, string _key, float _time_at_beat) {
+	public bool shooting;
+	public key_prompt(int _player, string _key, float _time_at_beat, bool _shooting) {
 		player = _player;
 		key = _key;
 		time_at_beat = _time_at_beat;
+		shooting = _shooting;
 	}
 }
 
