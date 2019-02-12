@@ -96,8 +96,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 0.5, y: 0.3}
+  m_Offset: {x: 0.05, y: 0}
+  m_Size: {x: 0.2, y: 0.25}
   m_Direction: 0
 --- !u!50 &6973749337687209703
 Rigidbody2D:
@@ -132,6 +132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34242ed0515994491a41c5c783a73761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player_set_index: 0
   offense: {fileID: 6973749337687209701}
 --- !u!114 &3840532299697449731
 MonoBehaviour:
@@ -145,8 +146,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aba3f1186553846428f6309705ca9a3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player_set_index: 0
+  offense: {fileID: 6973749337687209701}
   defenders:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  offense: {fileID: 6973749337687209701}

@@ -10,6 +10,7 @@ public class music_manager : MonoBehaviour {
 	public track Track;
 	public float beat_range; // The leeway, in seconds, to land something on the beat
 	public float faceoff_timescale_increment;
+	public float just_cleared_buffer_time;
 
 	public event_object to_trigger_on_start_song;
 	public event_object to_trigger_on_stop_song;
@@ -21,8 +22,6 @@ public class music_manager : MonoBehaviour {
 	public event_object p1_failed;
 	public event_object p2_failed;
 
-	// todo - need a bool that determines whether or not the offense player should be walking forward? False during faceoff.
-
 	public float beat_interval { get; private set; }
 	public float big_beat_interval { get; private set; }
 
@@ -30,14 +29,13 @@ public class music_manager : MonoBehaviour {
 	private float prev_disp = 0;
 	private float prev_big_disp = 0;
 
+	// Public static vars
 	public static AudioSource audioSource;
 
 	public static bool playing = false;
-	public static bool facing_off {
-		get { return _facing_off; }
-		set { _facing_off = value; }
-	}
-	private static bool _facing_off = false;
+	public static bool facing_off = false;
+	public static bool just_cleared_buffer = false;
+
 	public static int offense_p = 0;
 
 	// Singleton setup
@@ -72,10 +70,10 @@ public class music_manager : MonoBehaviour {
 
 		prev_disp = 0;
 		prev_big_disp = 0;
-		audioSource.Play();
-		to_trigger_on_start_song.Invoke();
 		facing_off = false;
 		playing = true;
+		audioSource.Play();
+		to_trigger_on_start_song.Invoke();
 	}
 
 	// Switches the possession to player with index new_offense_p.
@@ -84,6 +82,8 @@ public class music_manager : MonoBehaviour {
 		offense_p = new_offense_p;
 		delete_all_prompts();
 		// todo - anything else needs to be set here?
+		prev_disp = 0;
+		prev_big_disp = 0;
 		facing_off = false;
 		playing = true;
 	}
@@ -100,7 +100,7 @@ public class music_manager : MonoBehaviour {
 
 	// Call this to initiate a faceoff
 	public void start_faceoff() {
-		delete_all_prompts();
+		//delete_all_prompts();
 		facing_off = true;
 		SoundManager.instance.playAirhorn();
 	}
@@ -110,9 +110,10 @@ public class music_manager : MonoBehaviour {
 		facing_off = false;
 		delete_all_prompts();
 		if (winning_player_index != offense_p) {
-			// todo - switch possession here
+			// todo - cheering here?
 			switch_possession(winning_player_index);
 		} else {
+			// todo - cheering here?
 			// todo - defender falls over or something here?
 		}
 	}
@@ -126,8 +127,8 @@ public class music_manager : MonoBehaviour {
 			game_over();
 		}
 
-		// Manually initiate a faceoff, or force a possession swap.
-		// TODO - remove this, or make it editor only
+		// Manually initiate a faceoff, or force a possession swap (editor only)
+#if UNITY_EDITOR
 		if (Input.GetButtonDown("Force_Faceoff")) {
 			start_faceoff();
 		}
@@ -136,6 +137,7 @@ public class music_manager : MonoBehaviour {
 		} else if (Input.GetButtonDown("Force_P2_Offence")) {
 			switch_possession(1);
 		}
+#endif
 
 		// Update audioSource pitch based on current timeScale
 		audioSource.pitch = Time.timeScale;
@@ -277,6 +279,8 @@ public class music_manager : MonoBehaviour {
 		}
 		// Clear all the prompts in the key_prompts lists
 		key_prompts.clear_all_prompts();
+		// Set the just cleared buffer for a short time
+		StartCoroutine(start_just_cleared_buffer());
 	}
 
 	// Returns true iff we are within beat_range seconds of a beat
@@ -303,4 +307,13 @@ public class music_manager : MonoBehaviour {
 	public static float song_time_remaining() {
 		return audioSource.clip.length - audioSource.time;
 	}
+
+	// Sets the just_cleared_buffer to true, then resets it after a short duration
+	private IEnumerator start_just_cleared_buffer() {
+		just_cleared_buffer = true;
+		yield return new WaitForSeconds(just_cleared_buffer_time);
+		just_cleared_buffer = false;
+	}
 }
+
+public enum shooting_state { not, waiting, on_its_way, shot };

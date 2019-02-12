@@ -21,9 +21,23 @@ public static class key_prompts {
 		// Find all the keys that were pressed on this frame
 		List<string> keys_down = new List<string>();
 		foreach (string key in keys) {
-			if (Input.GetButtonDown(key + "_" + player_string)) {
+			if (Input.GetButtonDown(key + "_" + player_string) && !music_manager.just_cleared_buffer) {
 				keys_down.Add(key);
 			}
+		}
+
+		// testing - todo: remove
+		if (Input.GetAxisRaw("Shoot_1_B0") > 0) {
+			Debug.Log("shoot_1_B0");
+		}
+		if (Input.GetAxisRaw("Shoot_1_B1") > 0) {
+			Debug.Log("shoot_1_B1");
+		}
+		if (Input.GetAxisRaw("Shoot_2_B0") > 0) {
+			Debug.Log("shoot_2_B0");
+		}
+		if (Input.GetAxisRaw("Shoot_2_B1") > 0) {
+			Debug.Log("shoot_2_B1");
 		}
 
 		// Set all successful prompts to be removed

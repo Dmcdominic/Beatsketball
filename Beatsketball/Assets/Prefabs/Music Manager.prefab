@@ -44,9 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc2a331276256914b87d307bc9105694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  disable_prompt_spawns: 0
   Track: {fileID: 11400000, guid: 8ad75fa81b8eb6e49b4f48e4c0d5cbd8, type: 2}
   beat_range: 0.18
   faceoff_timescale_increment: 0.035
+  just_cleared_buffer_time: 0.6
   to_trigger_on_start_song: {fileID: 11400000, guid: 34fca488ae91b8b45aa6f7b87397413c,
     type: 2}
   to_trigger_on_stop_song: {fileID: 11400000, guid: a4fdfd22ecc9c1747847647791586722,
