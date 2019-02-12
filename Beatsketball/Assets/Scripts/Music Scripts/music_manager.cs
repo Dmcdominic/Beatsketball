@@ -5,6 +5,8 @@ using UnityEngine;
 public class music_manager : MonoBehaviour {
 
 	// Public fields
+	public bool disable_prompt_spawns = false;
+
 	public track Track;
 	public float beat_range; // The leeway, in seconds, to land something on the beat
 	public float faceoff_timescale_increment;
@@ -97,7 +99,7 @@ public class music_manager : MonoBehaviour {
 	}
 
 	// Call this to initiate a faceoff
-	private void start_faceoff() {
+	public void start_faceoff() {
 		delete_all_prompts();
 		facing_off = true;
 		SoundManager.instance.playAirhorn();
@@ -248,6 +250,10 @@ public class music_manager : MonoBehaviour {
 
 	// Spawns flying keyprompts, and adds them to the key_prompts list
 	private void make_prompt(key_prompt prompt) {
+		if (disable_prompt_spawns) {
+			return;
+		}
+
 		if (prompt.player == 0) {
 			spawn_p1_keyPrompt.Invoke(prompt);
 		} else {
