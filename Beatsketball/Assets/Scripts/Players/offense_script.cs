@@ -9,11 +9,17 @@ public class offense_script : MonoBehaviour {
 	private int lane = 1;
 	private int prev_vert_input_sign = 0;
 	private bool moved_this_beat = false;
+	private Vector3 initial_scale;
 
 	public static readonly float speed = 0.5f;
 	public static readonly float lane_delta_height = 1.5f;
 	public static readonly Vector3 moveDirection = new Vector3(0, lane_delta_height, 0);
 
+
+	// Init
+	private void Start() {
+		initial_scale = transform.localScale;
+	}
 
 	// Update is called once per frame
 	void Update() {
@@ -30,10 +36,11 @@ public class offense_script : MonoBehaviour {
 		float offense_vertical_input = Input.GetAxisRaw(input_axis);
 
 		if (offense_vertical_input > 0 && prev_vert_input_sign <= 0 && lane > 0) {
-			if (music_manager.is_valid_big_frame() && !moved_this_beat) {
-				offense.transform.position += moveDirection;
-				prev_vert_input_sign = 1;
+			if (music_manager.is_valid_move_frame() && !moved_this_beat) {
 				lane -= 1;
+				offense.transform.position += moveDirection;
+				offense.transform.localScale = initial_scale * (0.9f + (0.1f * lane));
+				prev_vert_input_sign = 1;
 				moved_this_beat = true;
 			} else {
 				on_bad_lane_input();
@@ -41,10 +48,11 @@ public class offense_script : MonoBehaviour {
 		}
 
 		if (offense_vertical_input < 0 && prev_vert_input_sign >= 0 && lane < 2) {
-			if (music_manager.is_valid_big_frame() && !moved_this_beat) {
-				offense.transform.position -= moveDirection;
-				prev_vert_input_sign = -1;
+			if (music_manager.is_valid_move_frame() && !moved_this_beat) {
 				lane += 1;
+				offense.transform.position -= moveDirection;
+				offense.transform.localScale = initial_scale * (0.9f + (0.1f * lane));
+				prev_vert_input_sign = -1;
 				moved_this_beat = true;
 			} else {
 				on_bad_lane_input();
@@ -59,7 +67,7 @@ public class offense_script : MonoBehaviour {
 		}
 
 		// Reset moved_this_beat
-		if (!music_manager.is_valid_big_frame()) {
+		if (!music_manager.is_valid_move_frame()) {
 			moved_this_beat = false;
 		}
 	}

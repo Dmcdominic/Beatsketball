@@ -105,6 +105,7 @@ public class music_manager : MonoBehaviour {
 	public void start_faceoff() {
 		//delete_all_prompts();
 		facing_off = true;
+		button_complexity++;
 		SoundManager.instance.playAirhorn();
 	}
 
@@ -116,7 +117,6 @@ public class music_manager : MonoBehaviour {
 			// todo - cheering here?
 			switch_possession(winning_player_index);
 		} else {
-			button_complexity++;
 			// todo - cheering here?
 			// todo - defender falls over or something here?
 		}
@@ -276,7 +276,11 @@ public class music_manager : MonoBehaviour {
 	// Clears a visual prompt that was successful, and plays checkmark
 	public static void clear_visual_prompt(key_prompt prompt) {
 		Music_Manager.prompt_success.Invoke(prompt);
-		SoundManager.instance.playBallBounce();
+		if (prompt.player == offense_p) {
+			SoundManager.instance.playBallBounce();
+		} else {
+
+		}
 	}
 
 	// Deletes all flying keyprompts and clears them from the key_prompts lists
@@ -300,6 +304,11 @@ public class music_manager : MonoBehaviour {
 	// Returns true iff we are within beat_range seconds of a big beat
 	public static bool is_valid_big_frame() {
 		return Mathf.Abs(get_big_beat_displacement()) <= Music_Manager.beat_range;
+	}
+
+	// Returns true iff it is a valid frame for vertical movement
+	public static bool is_valid_move_frame() {
+		return is_valid_frame() && !is_valid_big_frame();
 	}
 
 	// Returns true iff we are within beat_range seconds of a given time

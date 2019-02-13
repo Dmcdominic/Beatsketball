@@ -8,6 +8,8 @@ public static class key_prompts {
 
 	public static readonly List<string> keys = new List<string> { "B", "A", "Y", "X" };
 	public static readonly string shoot_key = "X";
+	public static readonly string LBumper_key = "LBumper";
+	public static readonly string RBumper_key = "RBumper";
 
 
 	public static void add_prompt(key_prompt prompt) {
@@ -15,6 +17,20 @@ public static class key_prompts {
 	}
 
 	public static bool check_all_prompts(int player_index) {
+		// Testing - todo: remove
+		if (Input.GetAxisRaw("LBumper_1") != 0f) {
+			Debug.Log("Got Lbumper1 test axis!");
+		}
+		if (Input.GetAxisRaw("LBumper_2") != 0f) {
+			Debug.Log("Got Lbumper2 test axis!");
+		}
+		if (Input.GetAxisRaw("RBumper_1") != 0f) {
+			Debug.Log("Got Rbumper1 test axis!");
+		}
+		if (Input.GetAxisRaw("RBumper_2") != 0f) {
+			Debug.Log("Got Rbumper2 test axis!");
+		}
+
 		string player_string = (player_index + 1).ToString();
 		bool passed = true;
 

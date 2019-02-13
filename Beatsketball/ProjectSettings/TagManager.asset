@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Activator
   - prompt
+  - Defense
+  - Offense
   layers:
   - Default
   - TransparentFX
@@ -45,4 +47,7 @@ TagManager:
     locked: 0
   - name: note
     uniqueID: 1682915559
+    locked: 0
+  - name: player
+    uniqueID: 2743246307
     locked: 0

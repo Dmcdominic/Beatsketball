@@ -12,6 +12,7 @@ public class SoundManager : MonoBehaviour {
 	public static SoundManager instance = null;
 
 	public float airhorn_chain_odds;
+	public float airhorn_chain_delay;
 
 	public float lowPitchRange;
 	public float highPitchRange;
@@ -48,7 +49,7 @@ public class SoundManager : MonoBehaviour {
 	}
 
 	private IEnumerator airhorn_chain() {
-		yield return new WaitForSecondsRealtime(0.17f);
+		yield return new WaitForSecondsRealtime(airhorn_chain_delay);
 		if (Random.Range(0, 1f) < airhorn_chain_odds) {
 			playAirhorn();
 		}

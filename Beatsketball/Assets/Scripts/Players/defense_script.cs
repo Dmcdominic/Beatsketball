@@ -14,6 +14,7 @@ public class defense_script : MonoBehaviour {
 	private int current_defender;
 	private int prev_vert_input_sign = 0;
 	private bool moved_this_beat = false;
+	private Vector3 initial_scale;
 
 
 	// Init
@@ -23,6 +24,7 @@ public class defense_script : MonoBehaviour {
 		for (int player_index = 0; player_index < 3; player_index++) {
 			lanes.Add(player_index, 1);
 		}
+		initial_scale = defenders[0].transform.localScale;
 	}
 	
 	// Initialization that needs to be done whenever a drive starts
@@ -43,10 +45,11 @@ public class defense_script : MonoBehaviour {
 		float defense_vertical_input = Input.GetAxisRaw(input_axis);
 
 		if (defense_vertical_input > 0 && prev_vert_input_sign <= 0 && lanes[current_defender] > 0) {
-			if (music_manager.is_valid_big_frame() && !moved_this_beat) {
-				defenders[current_defender].transform.position += offense_script.moveDirection;
-				prev_vert_input_sign = 1;
+			if (music_manager.is_valid_move_frame() && !moved_this_beat) {
 				lanes[current_defender] -= 1;
+				defenders[current_defender].transform.position += offense_script.moveDirection;
+				defenders[current_defender].transform.localScale = initial_scale * (0.9f + (0.1f * lanes[current_defender]));
+				prev_vert_input_sign = 1;
 				moved_this_beat = true;
 			} else {
 				on_bad_lane_input();
@@ -54,10 +57,11 @@ public class defense_script : MonoBehaviour {
 		}
 
 		if (defense_vertical_input < 0 && prev_vert_input_sign >= 0 && lanes[current_defender] < 2) {
-			if (music_manager.is_valid_big_frame() && !moved_this_beat) {
-				defenders[current_defender].transform.position -= offense_script.moveDirection;
-				prev_vert_input_sign = -1;
+			if (music_manager.is_valid_move_frame() && !moved_this_beat) {
 				lanes[current_defender] += 1;
+				defenders[current_defender].transform.position -= offense_script.moveDirection;
+				defenders[current_defender].transform.localScale = initial_scale * (0.9f + (0.1f * lanes[current_defender]));
+				prev_vert_input_sign = -1;
 				moved_this_beat = true;
 			} else {
 				on_bad_lane_input();
@@ -83,7 +87,7 @@ public class defense_script : MonoBehaviour {
 		}
 
 		// Reset moved_this_beat
-		if (!music_manager.is_valid_big_frame()) {
+		if (!music_manager.is_valid_move_frame()) {
 			moved_this_beat = false;
 		}
 	}

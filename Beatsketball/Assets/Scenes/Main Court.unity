@@ -616,11 +616,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4737735889427555993, guid: 20abfe270001efd46be49f784688e8dc,
-        type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8784972719663823030, guid: 20abfe270001efd46be49f784688e8dc,
         type: 3}
       propertyPath: m_Color.r
@@ -634,6 +629,11 @@ PrefabInstance:
     - target: {fileID: 8784972719663823030, guid: 20abfe270001efd46be49f784688e8dc,
         type: 3}
       propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4737735889427555993, guid: 20abfe270001efd46be49f784688e8dc,
+        type: 3}
+      propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -722,11 +722,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4737735889427555993, guid: 20abfe270001efd46be49f784688e8dc,
-        type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8784972719663823030, guid: 20abfe270001efd46be49f784688e8dc,
         type: 3}
       propertyPath: m_Color.r
@@ -741,6 +736,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.b
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4737735889427555993, guid: 20abfe270001efd46be49f784688e8dc,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4120942839212898364, guid: 20abfe270001efd46be49f784688e8dc, type: 3}
@@ -1141,11 +1141,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4737735889427555993, guid: 20abfe270001efd46be49f784688e8dc,
-        type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8784972719663823030, guid: 20abfe270001efd46be49f784688e8dc,
         type: 3}
       propertyPath: m_Color.r
@@ -1160,6 +1155,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.b
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4737735889427555993, guid: 20abfe270001efd46be49f784688e8dc,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 20abfe270001efd46be49f784688e8dc, type: 3}
@@ -1340,11 +1340,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4737735889427555993, guid: 20abfe270001efd46be49f784688e8dc,
-        type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8784972719663823030, guid: 20abfe270001efd46be49f784688e8dc,
         type: 3}
       propertyPath: m_Color.r
@@ -1358,6 +1353,11 @@ PrefabInstance:
     - target: {fileID: 8784972719663823030, guid: 20abfe270001efd46be49f784688e8dc,
         type: 3}
       propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4737735889427555993, guid: 20abfe270001efd46be49f784688e8dc,
+        type: 3}
+      propertyPath: m_IsTrigger
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:

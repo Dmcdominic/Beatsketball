@@ -177,6 +177,7 @@ MonoBehaviour:
   buzzer: {fileID: 6925458260877434994}
   ball_bounce: {fileID: 1924000659000330272}
   airhorn_chain_odds: 0.7
+  airhorn_chain_delay: 0.14
   lowPitchRange: 0.95
   highPitchRange: 1.05
 --- !u!1 &6925458260719443772
