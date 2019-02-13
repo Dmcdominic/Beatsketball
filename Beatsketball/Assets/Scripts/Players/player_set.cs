@@ -7,12 +7,9 @@ public class player_set : MonoBehaviour {
 	public int player_set_index;
 	public GameObject offense;
 
-	private Vector3 offense_init_pos;
-
 
 	// Init with all children inactive
 	private void Start() {
-		offense_init_pos = offense.transform.position;
 		set_all_children(false);
 	}
 
@@ -26,9 +23,6 @@ public class player_set : MonoBehaviour {
 	private void set_all_children(bool active) {
 		foreach (Transform child in transform) {
 			child.gameObject.SetActive(active);
-		}
-		if (!active) {
-			offense.transform.position = offense_init_pos;
 		}
 	}
 }

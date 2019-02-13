@@ -6,9 +6,10 @@ public class offense_script : MonoBehaviour {
 	public int player_set_index;
 	public GameObject offense;
 
-	private int lane = 1;
+	public static int lane = 1;
 	private int prev_vert_input_sign = 0;
 	private bool moved_this_beat = false;
+	private Vector3 initial_position;
 	private Vector3 initial_scale;
 
 	public static readonly float speed = 0.5f;
@@ -17,8 +18,18 @@ public class offense_script : MonoBehaviour {
 
 
 	// Init
-	private void Start() {
+	private void Awake() {
+		initial_position = transform.position;
 		initial_scale = transform.localScale;
+	}
+
+	// Re-init the offense player
+	private void OnEnable() {
+		offense.transform.position = initial_position;
+		offense.transform.localScale = initial_scale;
+		lane = 1;
+		prev_vert_input_sign = 0;
+		moved_this_beat = false;
 	}
 
 	// Update is called once per frame

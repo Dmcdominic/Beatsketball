@@ -10,17 +10,26 @@ public class defense_script : MonoBehaviour {
 
 	// Private vars
 	private Dictionary<int, int> lanes;
-	//private int counter = 0;
-	private int current_defender;
+
 	private int prev_vert_input_sign = 0;
 	private bool moved_this_beat = false;
 	private Vector3 initial_scale;
+	
+	public static Dictionary<int, int> set_0_lanes;
+	public static Dictionary<int, int> set_1_lanes;
+	public static int current_defender;
 
 
 	// Init
 	void Start() {
 		// Initialize the lanes dictionary
-		lanes = new Dictionary<int, int>();
+		if (player_set_index == 0) {
+			set_0_lanes = new Dictionary<int, int> ();
+			lanes = set_0_lanes;
+		} else {
+			set_1_lanes = new Dictionary<int, int>();
+			lanes = set_1_lanes;
+		}
 		for (int player_index = 0; player_index < 3; player_index++) {
 			lanes.Add(player_index, 1);
 		}
@@ -74,6 +83,7 @@ public class defense_script : MonoBehaviour {
 		if ((set0_switch || set1_switch) && music_manager.shooting == shooting_state.not) {
 			if (current_defender < 2) {
 				current_defender++;
+				music_manager.button_complexity++;
 			} else {
 				music_manager.ready_to_shoot();
 			}
