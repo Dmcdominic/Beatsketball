@@ -7,7 +7,8 @@ public static class key_prompts {
 	public static List<key_prompt>[] open_prompts = new List<key_prompt>[] { new List<key_prompt>(), new List<key_prompt>() };
 
 	public static readonly List<string> keys = new List<string> { "B", "A", "Y", "X" };
-	public static readonly string shoot_key = "X";
+	//public static readonly string shoot_key = "X";
+	public static readonly string shoot_key = "L&R";
 	public static readonly string LBumper_key = "LBumper";
 	public static readonly string RBumper_key = "RBumper";
 
@@ -40,6 +41,13 @@ public static class key_prompts {
 			if (Input.GetButtonDown(key + "_" + player_string) && !music_manager.just_cleared_buffer) {
 				keys_down.Add(key);
 			}
+		}
+
+		// Check if they're trying to shoot
+		bool LBumper_last = Input.GetButtonDown(LBumper_key + "_" + player_string) && Input.GetButton(RBumper_key + "_" + player_string);
+		bool RBumper_last = Input.GetButton(LBumper_key + "_" + player_string) && Input.GetButtonDown(RBumper_key + "_" + player_string);
+		if (LBumper_last || RBumper_last) {
+			keys_down.Add(shoot_key);
 		}
 
 		// Set all successful prompts to be removed

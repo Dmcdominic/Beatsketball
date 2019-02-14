@@ -200,7 +200,7 @@ public class music_manager : MonoBehaviour {
 		if (facing_off) {
 			Time.timeScale += faceoff_timescale_increment * Time.fixedUnscaledDeltaTime;
 		} else if (Time.timeScale > 1) {
-			Time.timeScale = Mathf.Max(1, Time.timeScale - faceoff_timescale_increment * 10f * Time.fixedUnscaledDeltaTime);
+			Time.timeScale = Mathf.Max(1, Time.timeScale - faceoff_timescale_increment * 18f * Time.fixedUnscaledDeltaTime);
 		}
 	}
 
@@ -276,10 +276,12 @@ public class music_manager : MonoBehaviour {
 	// Clears a visual prompt that was successful, and plays checkmark
 	public static void clear_visual_prompt(key_prompt prompt) {
 		Music_Manager.prompt_success.Invoke(prompt);
-		if (prompt.player == offense_p) {
+		if (prompt.shooting) {
+			SoundManager.instance.playSwishDelayed();
+		} else if (prompt.player == offense_p) {
 			SoundManager.instance.playBallBounce();
 		} else {
-
+			SoundManager.instance.playShuffle();
 		}
 	}
 
@@ -308,7 +310,8 @@ public class music_manager : MonoBehaviour {
 
 	// Returns true iff it is a valid frame for vertical movement
 	public static bool is_valid_move_frame() {
-		return is_valid_frame() && !is_valid_big_frame();
+		//return is_valid_frame() && !is_valid_big_frame();
+		return is_valid_big_frame();
 	}
 
 	// Returns true iff we are within beat_range seconds of a given time

@@ -8,11 +8,16 @@ public class SoundManager : MonoBehaviour {
 	public AudioSource airhorn;
 	public AudioSource buzzer;
 	public AudioSource ball_bounce;
+	public AudioSource shuffle_1;
+	public AudioSource shuffle_2;
+	public AudioSource swish;
 
 	public static SoundManager instance = null;
 
 	public float airhorn_chain_odds;
 	public float airhorn_chain_delay;
+
+	public float swish_delay;
 
 	public float lowPitchRange;
 	public float highPitchRange;
@@ -63,6 +68,30 @@ public class SoundManager : MonoBehaviour {
 	public void playBallBounce() {
 		//ball_bounce.pitch = Random.Range(lowPitchRange, highPitchRange);
 		ball_bounce.Play();
+	}
+
+	public void playShuffle() {
+		if (Random.Range(0, 1f) < 0.5f) {
+			shuffle_1.pitch = Random.Range(lowPitchRange, highPitchRange);
+			shuffle_1.Play();
+		} else {
+			shuffle_2.pitch = Random.Range(lowPitchRange, highPitchRange);
+			shuffle_2.Play();
+		}
+	}
+
+	public void playSwish() {
+		swish.pitch = Random.Range(lowPitchRange, highPitchRange);
+		swish.Play();
+	}
+
+	public void playSwishDelayed() {
+		StartCoroutine(swishDelayed());
+	}
+
+	private IEnumerator swishDelayed() {
+		yield return new WaitForSeconds(swish_delay);
+		playSwish();
 	}
 
 }

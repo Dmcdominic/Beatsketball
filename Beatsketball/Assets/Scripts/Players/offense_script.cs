@@ -12,8 +12,8 @@ public class offense_script : MonoBehaviour {
 	private Vector3 initial_position;
 	private Vector3 initial_scale;
 
-	public static readonly float speed = 0.5f;
-	public static readonly float lane_delta_height = 1.5f;
+	public static readonly float speed = 0.8f;
+	public static readonly float lane_delta_height = 1.8f;
 	public static readonly Vector3 moveDirection = new Vector3(0, lane_delta_height, 0);
 
 
