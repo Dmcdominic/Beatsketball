@@ -643,10 +643,10 @@ RectTransform:
   m_Father: {fileID: 605533234}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 4.295, y: -23.280005}
-  m_SizeDelta: {x: 248.33, y: 46.56}
+  m_AnchorMin: {x: 0.37100002, y: 0.4176185}
+  m_AnchorMax: {x: 0.6413289, y: 0.56530935}
+  m_AnchoredPosition: {x: -3.1869965, y: 2.4944992}
+  m_SizeDelta: {x: -23.810001, y: -15.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &917896166
 MonoBehaviour:
@@ -891,10 +891,10 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: 9ce6964fb5bcb9640bef58667636fe8c, type: 3}
-    m_FontSize: 20
+    m_FontSize: 15
     m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 2
+    m_BestFit: 1
+    m_MinSize: 0
     m_MaxSize: 40
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -1025,10 +1025,10 @@ RectTransform:
   m_Father: {fileID: 605533234}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 4.1, y: 86}
-  m_SizeDelta: {x: 247.94, y: 46.489}
+  m_AnchorMin: {x: 0.37100002, y: 0.6788178}
+  m_AnchorMax: {x: 0.62778926, y: 0.8025636}
+  m_AnchoredPosition: {x: 0.31300354, y: 2}
+  m_SizeDelta: {x: -18.959, y: -4.8234005}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1275507613
 MonoBehaviour:
@@ -1076,7 +1076,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 3
+          m_IntArgument: 4
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -1314,10 +1314,10 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: 9ce6964fb5bcb9640bef58667636fe8c, type: 3}
-    m_FontSize: 20
+    m_FontSize: 15
     m_FontStyle: 0
-    m_BestFit: 0
-    m_MinSize: 2
+    m_BestFit: 1
+    m_MinSize: 1
     m_MaxSize: 40
     m_Alignment: 4
     m_AlignByGeometry: 0
