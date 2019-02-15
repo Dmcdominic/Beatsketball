@@ -13,24 +13,39 @@ public class gameovertext : MonoBehaviour
     void Start()
     {
         gameover.text = "GAME OVER!";
-        if (FindObjectOfType<gameManager>().winner == 1)
+        //winnerName.text = "GAME TIED!";
+
+        /*
+        if (FindObjectOfType<score_script>().player1win == true)
         {
             winnerName.text = "PLAYER 1 WON!";
         }
-        else if (FindObjectOfType<gameManager>().winner == 2)
+        if (FindObjectOfType<score_script>().player2win == true)
         {
             winnerName.text = "PLAYER 2 WON!";
         }
-        else
-        {
-            winnerName.text = "GAME TIED!";
-        }
+        */
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (FindObjectOfType<gameManager>().gameHasEnded == true)
+        {
+            if (music_manager.p1_score > music_manager.p2_score)
+            {
+                winnerName.text = "PLAYER 1 WON!";
+            }
+            else if (music_manager.p1_score < music_manager.p2_score)
+            {
+                winnerName.text = "PLAYER 2 WON!";
+            }
+            else
+            {
+                winnerName.text = "GAME TIED!";
+            }
+        }
+
     }
 }

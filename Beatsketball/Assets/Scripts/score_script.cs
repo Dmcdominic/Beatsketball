@@ -14,9 +14,7 @@ public class score_script : MonoBehaviour
     private int timer_min;
     private float timer_sec;
 
-    public bool player1win = false;
-    public bool player2win = false;
-    public bool tie = false;
+
 
     // Start is called before the first frame update
     void Start()
@@ -43,23 +41,15 @@ public class score_script : MonoBehaviour
             timer.text = timer_min + ":" + timer_sec.ToString("F1");
         }
 
+
+
         if (System.Math.Abs(timer_var) < 0.1)
         {
             FindObjectOfType<gameManager>().EndGame();
-            if (music_manager.p1_score > music_manager.p2_score)
-            {
-                player1win = true;
-            }
-            else if (music_manager.p1_score < music_manager.p2_score)
-            {
-                player2win = true;
-            }
-            else
-            {
-                tie = true;
-            }
 
         }
+
+
 
     }
 
