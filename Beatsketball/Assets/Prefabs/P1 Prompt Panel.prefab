@@ -313,4 +313,5 @@ MonoBehaviour:
   prompt_prefab: {fileID: 3808950290456919566, guid: d2e19c81902694b4eb0b10ea03fe4be1,
     type: 3}
   prompt_target: {fileID: 6766410678136582952}
+  bumpers_sprite: {fileID: 21300002, guid: 50be7ec89932d8443a9b60f1fdfe1ffc, type: 3}
   spawn_keyPrompt: {fileID: 11400000, guid: 8a8a7c9f5a59e944fb734f6045cb232f, type: 2}

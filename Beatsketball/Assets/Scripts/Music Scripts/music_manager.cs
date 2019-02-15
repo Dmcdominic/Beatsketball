@@ -55,7 +55,7 @@ public class music_manager : MonoBehaviour {
 		}
 
 		Music_Manager = this;
-		DontDestroyOnLoad(gameObject);
+		//DontDestroyOnLoad(gameObject);
 		audioSource = GetComponentInChildren<AudioSource>();
 		beat_interval = (60f / Track.bpm);
 		big_beat_interval = beat_interval * 2f;
@@ -124,6 +124,10 @@ public class music_manager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update() {
+		if (PauseMenu.isPaused) {
+			return;
+		}
+
 		if (!playing) {
 			return;
 		} else if (playing && !audioSource.isPlaying) {

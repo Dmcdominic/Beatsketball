@@ -8,6 +8,7 @@ public class prompt_spawner : MonoBehaviour {
 
 	public Rigidbody2D prompt_prefab;
 	public GameObject prompt_target;
+	public Sprite bumpers_sprite;
 	public keyPrompt_event_object spawn_keyPrompt;
 
 
@@ -22,6 +23,7 @@ public class prompt_spawner : MonoBehaviour {
 		new_prompt.GetComponentInChildren<TextMeshProUGUI>().text = prompt.key;
 
 		Color new_color = new_prompt.GetComponent<Image>().color;
+
 		switch (prompt.key) {
 			case "A":
 				new_color = Color.red;
@@ -34,6 +36,11 @@ public class prompt_spawner : MonoBehaviour {
 				break;
 			case "Y":
 				new_color = Color.green;
+				break;
+			default:
+				// Default case - For shooting the basket
+				new_prompt.GetComponent<Image>().sprite = bumpers_sprite;
+				new_prompt.GetComponentInChildren<TextMeshProUGUI>().text = "";
 				break;
 		}
 		new_prompt.GetComponent<Image>().color = new_color;

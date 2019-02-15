@@ -13,7 +13,8 @@ public class offense_script : MonoBehaviour {
 	private Vector3 initial_scale;
 
 	public static readonly float speed = 0.8f;
-	public static readonly float lane_delta_height = 1.8f;
+	public static readonly float lane_delta_height = 0.9f;
+	public static readonly float distance_scale_diff = 0.15f;
 	public static readonly Vector3 moveDirection = new Vector3(0, lane_delta_height, 0);
 
 
@@ -50,7 +51,7 @@ public class offense_script : MonoBehaviour {
 			if (music_manager.is_valid_move_frame() && !moved_this_beat) {
 				lane -= 1;
 				offense.transform.position += moveDirection;
-				offense.transform.localScale = initial_scale * (0.9f + (0.1f * lane));
+				offense.transform.localScale = initial_scale * ((1f - distance_scale_diff) + (distance_scale_diff * lane));
 				prev_vert_input_sign = 1;
 				moved_this_beat = true;
 			} else {

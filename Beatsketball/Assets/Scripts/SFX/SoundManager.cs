@@ -32,7 +32,7 @@ public class SoundManager : MonoBehaviour {
 			return;
 		}
 
-		DontDestroyOnLoad(gameObject);
+		//DontDestroyOnLoad(gameObject);
 		SceneManager.activeSceneChanged += onSceneChanged;
 	}
 

@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour {
 	public static bool isPaused = false;
@@ -25,16 +28,32 @@ public class PauseMenu : MonoBehaviour {
 		}
 	}
 
-	void Resume() {
+	public void Resume() {
 		pauseMenuUI.SetActive(false);
+		music_manager.audioSource.UnPause();
 		Time.timeScale = prev_timeScale;
 		isPaused = false;
 	}
 
 	void Pause() {
 		pauseMenuUI.SetActive(true);
+		music_manager.audioSource.Pause();
 		prev_timeScale = Time.timeScale;
 		Time.timeScale = 0f;
 		isPaused = true;
+		EventSystem.current.SetSelectedGameObject(EventSystem.current.firstSelectedGameObject);
+	}
+
+	public void MainMenu() {
+		SceneManager.LoadScene(1);
+	}
+
+	public void Quit() {
+#if UNITY_EDITOR
+		EditorApplication.isPlaying = false;
+#endif
+#if UNITY_STANDALONE
+		Application.Quit();
+#endif
 	}
 }

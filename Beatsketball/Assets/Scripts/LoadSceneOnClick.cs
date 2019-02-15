@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class LoadSceneOnClick : MonoBehaviour
-{
-    public void startGame(int index)
-    {
-        SceneManager.LoadScene(index);
-    }
+public class LoadSceneOnClick : MonoBehaviour {
+	public void startGame(int index) {
+		SceneManager.LoadScene(index);
+	}
 }
