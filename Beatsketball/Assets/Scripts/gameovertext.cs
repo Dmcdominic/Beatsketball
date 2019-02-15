@@ -13,18 +13,6 @@ public class gameovertext : MonoBehaviour
     void Start()
     {
         gameover.text = "GAME OVER!";
-        //winnerName.text = "GAME TIED!";
-
-        /*
-        if (FindObjectOfType<score_script>().player1win == true)
-        {
-            winnerName.text = "PLAYER 1 WON!";
-        }
-        if (FindObjectOfType<score_script>().player2win == true)
-        {
-            winnerName.text = "PLAYER 2 WON!";
-        }
-        */
 
     }
 

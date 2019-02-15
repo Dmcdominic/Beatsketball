@@ -42,7 +42,6 @@ public class score_script : MonoBehaviour
         }
 
 
-
         if (System.Math.Abs(timer_var) < 0.1)
         {
             FindObjectOfType<gameManager>().EndGame();
