@@ -31,6 +31,10 @@ public class PauseMenu : MonoBehaviour {
 	public void Resume() {
 		pauseMenuUI.SetActive(false);
 		music_manager.audioSource.UnPause();
+		logical_resume();
+	}
+
+	private void logical_resume() {
 		Time.timeScale = prev_timeScale;
 		isPaused = false;
 	}
@@ -45,6 +49,7 @@ public class PauseMenu : MonoBehaviour {
 	}
 
 	public void MainMenu() {
+		logical_resume();
 		SceneManager.LoadScene(1);
 	}
 
