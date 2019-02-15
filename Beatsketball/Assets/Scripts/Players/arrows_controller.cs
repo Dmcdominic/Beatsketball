@@ -21,7 +21,7 @@ public class arrows_controller : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update() {
-		if (!music_manager.is_valid_move_frame() || music_manager.facing_off) {
+		if (!music_manager.is_valid_move_frame() || music_manager.facing_off || music_manager.shooting == shooting_state.shot) {
 			update_arrows(false, false);
 			return;
 		}

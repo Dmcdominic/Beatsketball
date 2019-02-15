@@ -85,13 +85,4 @@ public class SoundManager : MonoBehaviour {
 		swish.Play();
 	}
 
-	public void playSwishDelayed() {
-		StartCoroutine(swishDelayed());
-	}
-
-	private IEnumerator swishDelayed() {
-		yield return new WaitForSeconds(swish_delay);
-		playSwish();
-	}
-
 }

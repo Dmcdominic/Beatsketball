@@ -18,8 +18,8 @@ public class offense_script : MonoBehaviour {
 	public static readonly Vector3 moveDirection = new Vector3(0, lane_delta_height, 0);
 
 
-	// Init
-	private void Awake() {
+	// Init - also being called by complete_dunk
+	public void Awake() {
 		initial_position = transform.position;
 		initial_scale = transform.localScale;
 	}
@@ -35,7 +35,7 @@ public class offense_script : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update() {
-		if (!music_manager.playing || music_manager.facing_off) {
+		if (!music_manager.playing || music_manager.facing_off || music_manager.shooting == shooting_state.shot) {
 			return;
 		}
 

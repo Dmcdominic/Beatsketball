@@ -29,8 +29,8 @@ public class score_script : MonoBehaviour
         timer_min = Mathf.FloorToInt(timer_var)/60;
         timer_sec = timer_var % 60;
 
-        p1_score.text = "Player 1: " + music_manager.p1_score;
-        p2_score.text = "Player 2: " + music_manager.p2_score;
+        p1_score.text = music_manager.p1_score.ToString();
+        p2_score.text = music_manager.p2_score.ToString();
 
         if (timer_sec < 10)
         {

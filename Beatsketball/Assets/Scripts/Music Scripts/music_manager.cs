@@ -128,7 +128,7 @@ public class music_manager : MonoBehaviour {
 			return;
 		}
 
-		if (!playing) {
+		if (!playing || shooting == shooting_state.shot) {
 			return;
 		} else if (playing && !audioSource.isPlaying) {
 			// todo - this means song has ended(?), so end the game
@@ -281,7 +281,7 @@ public class music_manager : MonoBehaviour {
 	public static void clear_visual_prompt(key_prompt prompt) {
 		Music_Manager.prompt_success.Invoke(prompt);
 		if (prompt.shooting) {
-			SoundManager.instance.playSwishDelayed();
+			//SoundManager.instance.playSwishDelayed();
 		} else if (prompt.player == offense_p) {
 			SoundManager.instance.playBallBounce();
 		} else {
@@ -350,9 +350,10 @@ public class music_manager : MonoBehaviour {
 	public void shoot_the_ball(int player_index) {
 		Debug.Log("Player " + player_index + " shot the ball!");
 		shooting = shooting_state.shot;
-		// todo - shooting animation, maybe sound effects
-		// todo - increment score after delay
-		// todo - switch possession after the basket is scored
+	}
+
+	public void finish_shooting_ball(int player_index) {
+		SoundManager.instance.playSwish();
 		if (player_index == 0) {
 			p1_score += 2;
 			switch_possession(1);
