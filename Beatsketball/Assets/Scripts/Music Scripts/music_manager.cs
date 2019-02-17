@@ -315,12 +315,18 @@ public class music_manager : MonoBehaviour {
 	// Returns true iff it is a valid frame for vertical movement
 	public static bool is_valid_move_frame() {
 		//return is_valid_frame() && !is_valid_big_frame();
-		return is_valid_big_frame();
+		//return is_valid_big_frame();
+		return true;
 	}
 
 	// Returns true iff we are within beat_range seconds of a given time
 	public static bool is_valid_for_time(float time) {
 		return Mathf.Abs(Time.time - time) <= Music_Manager.beat_range;
+	}
+
+	// Returns true iff we are within a full big beat interval of a certain time
+	public static bool is_within_this_big_beat(float time) {
+		return Mathf.Abs(time - Time.time) < Music_Manager.big_beat_interval;
 	}
 
 	// Returns true iff we have missed the valid window for a certain time

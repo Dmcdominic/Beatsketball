@@ -22,31 +22,31 @@ public class prompt_spawner : MonoBehaviour {
 		Rigidbody2D new_prompt = Instantiate(prompt_prefab, transform);
 		new_prompt.GetComponentInChildren<TextMeshProUGUI>().text = prompt.key;
 
-		Color new_color = new_prompt.GetComponent<Image>().color;
-
-		switch (prompt.key) {
-			case "A":
-				new_color = Color.red;
-				break;
-			case "B":
-				new_color = Color.yellow;
-				break;
-			case "X":
-				new_color = Color.blue;
-				break;
-			case "Y":
-				new_color = Color.green;
-				break;
-			default:
-				// Default case - For shooting the basket
-				new_prompt.GetComponent<Image>().sprite = bumpers_sprite;
-				new_prompt.GetComponentInChildren<TextMeshProUGUI>().text = "";
-				break;
+		if (prompt.shooting) {
+			new_prompt.GetComponent<Image>().sprite = bumpers_sprite;
+			new_prompt.GetComponentInChildren<TextMeshProUGUI>().text = "";
 		}
-		new_prompt.GetComponent<Image>().color = new_color;
+
+		new_prompt.GetComponent<Image>().color = get_prompt_color(prompt.key);
 		new_prompt.GetComponent<keyprompt_id>().key_Prompt = prompt;
 
 		new_prompt.transform.position = transform.position;
 		new_prompt.velocity = (prompt_target.transform.position - new_prompt.transform.position) / (music_manager.Music_Manager.big_beat_interval * 2);
+	}
+
+	// Returns the corresponding color for each key prompt
+	public static Color get_prompt_color(string prompt_key) {
+		switch (prompt_key) {
+			case "A":
+				return Color.red;
+			case "B":
+				return Color.yellow;
+			case "X":
+				return Color.blue;
+			case "Y":
+				return Color.green;
+		}
+		// Default case - For shooting the basket, or other
+		return Color.white;
 	}
 }

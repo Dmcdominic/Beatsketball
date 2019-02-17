@@ -18,20 +18,6 @@ public static class key_prompts {
 	}
 
 	public static bool check_all_prompts(int player_index) {
-		// Testing - todo: remove
-		if (Input.GetAxisRaw("LBumper_1") != 0f) {
-			Debug.Log("Got Lbumper1 test axis!");
-		}
-		if (Input.GetAxisRaw("LBumper_2") != 0f) {
-			Debug.Log("Got Lbumper2 test axis!");
-		}
-		if (Input.GetAxisRaw("RBumper_1") != 0f) {
-			Debug.Log("Got Rbumper1 test axis!");
-		}
-		if (Input.GetAxisRaw("RBumper_2") != 0f) {
-			Debug.Log("Got Rbumper2 test axis!");
-		}
-
 		string player_string = (player_index + 1).ToString();
 		bool passed = true;
 
@@ -55,8 +41,8 @@ public static class key_prompts {
 		foreach (key_prompt prompt in open_prompts[player_index]) {
 			if (music_manager.is_valid_for_time(prompt.time_at_beat)) {
 				if (keys_down.Contains(prompt.key)) {
-					Debug.Log("Pressed the correct key!: " + prompt.key);
-					Debug.Log("Current displacement from beat: " + music_manager.get_big_beat_displacement());
+					//Debug.Log("Pressed the correct key!: " + prompt.key);
+					//Debug.Log("Current displacement from beat: " + music_manager.get_big_beat_displacement());
 					to_remove.Add(prompt);
 					keys_down.Remove(prompt.key);
 					music_manager.clear_visual_prompt(prompt);
@@ -107,6 +93,19 @@ public static class key_prompts {
 	// Returns the string for a random key in the set
 	public static string get_random_key(int total_keys) {
 		return keys[Random.Range(0, Mathf.Clamp(total_keys, 1, keys.Count))];
+	}
+
+	// Returns the soonest arriving prompt for player_index.
+	// If none is found, the returned prompt will have player_index of -1
+	public static key_prompt get_next_prompt(int player_index) {
+		key_prompt next_prompt = new key_prompt(-1, "none", float.MaxValue, false);
+		foreach (key_prompt prompt in open_prompts[player_index]) {
+			if (prompt.player == player_index && prompt.time_at_beat < next_prompt.time_at_beat) {
+				next_prompt = prompt;
+			}
+		}
+
+		return next_prompt;
 	}
 
 }

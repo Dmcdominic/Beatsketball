@@ -12,7 +12,6 @@ public class defense_script : MonoBehaviour {
 	private Dictionary<int, int> lanes;
 
 	private int prev_vert_input_sign = 0;
-	private bool moved_this_beat = false;
 	private Vector3 initial_scale;
 	
 	public static Dictionary<int, int> set_0_lanes;
@@ -30,7 +29,7 @@ public class defense_script : MonoBehaviour {
 			set_1_lanes = new Dictionary<int, int>();
 			lanes = set_1_lanes;
 		}
-		for (int player_index = 0; player_index < 3; player_index++) {
+		for (int player_index = 0; player_index < defenders.Count; player_index++) {
 			lanes.Add(player_index, 1);
 		}
 		initial_scale = defenders[0].transform.localScale;
@@ -54,24 +53,22 @@ public class defense_script : MonoBehaviour {
 		float defense_vertical_input = Input.GetAxisRaw(input_axis);
 
 		if (defense_vertical_input > 0 && prev_vert_input_sign <= 0 && lanes[current_defender] > 0) {
-			if (music_manager.is_valid_move_frame() && !moved_this_beat) {
+			if (music_manager.is_valid_move_frame()) {
 				lanes[current_defender] -= 1;
 				defenders[current_defender].transform.position += offense_script.moveDirection;
 				defenders[current_defender].transform.localScale = initial_scale * (0.9f + (0.1f * lanes[current_defender]));
 				prev_vert_input_sign = 1;
-				moved_this_beat = true;
 			} else {
 				on_bad_lane_input();
 			}
 		}
 
 		if (defense_vertical_input < 0 && prev_vert_input_sign >= 0 && lanes[current_defender] < 2) {
-			if (music_manager.is_valid_move_frame() && !moved_this_beat) {
+			if (music_manager.is_valid_move_frame()) {
 				lanes[current_defender] += 1;
 				defenders[current_defender].transform.position -= offense_script.moveDirection;
 				defenders[current_defender].transform.localScale = initial_scale * (0.9f + (0.1f * lanes[current_defender]));
 				prev_vert_input_sign = -1;
-				moved_this_beat = true;
 			} else {
 				on_bad_lane_input();
 			}
@@ -81,7 +78,7 @@ public class defense_script : MonoBehaviour {
 		bool set0_switch = player_set_index == 0 && offense.transform.position.x > defenders[current_defender].transform.position.x && music_manager.offense_p == 0;
 		bool set1_switch = player_set_index == 1 && offense.transform.position.x < defenders[current_defender].transform.position.x && music_manager.offense_p == 1;
 		if ((set0_switch || set1_switch) && music_manager.shooting == shooting_state.not) {
-			if (current_defender < 2) {
+			if (current_defender < (defenders.Count - 1)) {
 				current_defender++;
 				music_manager.button_complexity++;
 			} else {
@@ -94,11 +91,6 @@ public class defense_script : MonoBehaviour {
 			prev_vert_input_sign = 0;
 		} else if (prev_vert_input_sign < 0 && defense_vertical_input >= 0) {
 			prev_vert_input_sign = 0;
-		}
-
-		// Reset moved_this_beat
-		if (!music_manager.is_valid_move_frame()) {
-			moved_this_beat = false;
 		}
 	}
 
