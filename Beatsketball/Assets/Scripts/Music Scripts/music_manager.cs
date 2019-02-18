@@ -7,7 +7,7 @@ public class music_manager : MonoBehaviour {
 	// Public fields
 	public bool disable_prompt_spawns = false;
 
-	public track Track;
+	public master_music master_Music;
 	public float beat_range; // The leeway, in seconds, to land something on the beat
 	public float faceoff_timescale_increment;
 	public float just_cleared_buffer_time;
@@ -28,6 +28,7 @@ public class music_manager : MonoBehaviour {
 	// Private vars
 	private float prev_disp = 0;
 	private float prev_big_disp = 0;
+	private track Track;
 
 	// Public static vars
 	public static AudioSource audioSource;
@@ -57,6 +58,7 @@ public class music_manager : MonoBehaviour {
 		Music_Manager = this;
 		//DontDestroyOnLoad(gameObject);
 		audioSource = GetComponentInChildren<AudioSource>();
+		Track = master_Music.current_track;
 		beat_interval = (60f / Track.bpm);
 		big_beat_interval = beat_interval * 2f;
 	}
@@ -64,6 +66,7 @@ public class music_manager : MonoBehaviour {
 	// Start the scene
 	private void Start() {
 		audioSource.clip = Track.song;
+		audioSource.volume = master_Music.master_volume * Track.volume;
 		start_offense(0);
 	}
 

@@ -9,7 +9,9 @@ public class offense_script : MonoBehaviour {
 
 	public static int lane = 1;
 	private int prev_vert_input_sign = 0;
-	private Vector3 initial_position;
+
+	[HideInInspector]
+	public Vector3 initial_position;
 	private Vector3 initial_scale;
 	
 	// True iff a player just scored, meaning offense position needs to reset.

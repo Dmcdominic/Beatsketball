@@ -9,4 +9,9 @@ public class track : ScriptableObject {
 	public float bpm;
 	public float start_time;
 
+	[Range(0, 1)]
+	public float volume = 0.6f;
+
+	public bool single_airhorn_override = false;
+
 }

@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   song: {fileID: 8300000, guid: 5a84bc6de0f4e674591b7aac0bfa5bc9, type: 3}
   bpm: 180
-  start_time: 0.15
+  start_time: 0.1
+  volume: 0.29
+  single_airhorn_override: 1
