@@ -360,6 +360,7 @@ public class music_manager : MonoBehaviour {
 
 	public void finish_shooting_ball(int player_index) {
 		SoundManager.instance.playSwish();
+		offense_script.player_just_scored = true;
 		if (player_index == 0) {
 			p1_score += 2;
 			switch_possession(1);
