@@ -13,6 +13,11 @@ MonoBehaviour:
   m_Name: Space Jam (3 minutes)
   m_EditorClassIdentifier: 
   song: {fileID: 8300000, guid: e397e7b4bea9e45438b3503549643f99, type: 3}
+  title: Space Jam (Beatsketball Cut)
+  artist: Various Artists
   bpm: 132
   start_time: 0.76
+  preview_start_time: 21
   volume: 0.6
+  single_airhorn_override: 0
+  album_cover: {fileID: 21300000, guid: 88e34632dd86103459b7003b27b4d5d6, type: 3}
