@@ -7,7 +7,7 @@ public class music_manager : MonoBehaviour {
 	// Public fields
 	public bool disable_prompt_spawns = false;
 
-	public track Track;
+	public master_music master_Music;
 	public float beat_range; // The leeway, in seconds, to land something on the beat
 	public float faceoff_timescale_increment;
 	public float just_cleared_buffer_time;
@@ -28,6 +28,7 @@ public class music_manager : MonoBehaviour {
 	// Private vars
 	private float prev_disp = 0;
 	private float prev_big_disp = 0;
+	private track Track;
 
 	// Public static vars
 	public static AudioSource audioSource;
@@ -57,6 +58,7 @@ public class music_manager : MonoBehaviour {
 		Music_Manager = this;
 		//DontDestroyOnLoad(gameObject);
 		audioSource = GetComponentInChildren<AudioSource>();
+		Track = master_Music.current_track;
 		beat_interval = (60f / Track.bpm);
 		big_beat_interval = beat_interval * 2f;
 	}
@@ -64,6 +66,7 @@ public class music_manager : MonoBehaviour {
 	// Start the scene
 	private void Start() {
 		audioSource.clip = Track.song;
+		audioSource.volume = master_Music.master_volume * Track.volume;
 		start_offense(0);
 	}
 
@@ -128,6 +131,9 @@ public class music_manager : MonoBehaviour {
 			return;
 		}
 
+		// Update audioSource pitch based on current timeScale
+		audioSource.pitch = Time.timeScale;
+
 		if (!playing || shooting == shooting_state.shot) {
 			return;
 		} else if (playing && !audioSource.isPlaying) {
@@ -146,9 +152,6 @@ public class music_manager : MonoBehaviour {
 			switch_possession(1);
 		}
 #endif
-
-		// Update audioSource pitch based on current timeScale
-		audioSource.pitch = Time.timeScale;
 
 		// Check for triggering the beat
 		float new_disp = get_beat_displacement();
@@ -360,6 +363,7 @@ public class music_manager : MonoBehaviour {
 
 	public void finish_shooting_ball(int player_index) {
 		SoundManager.instance.playSwish();
+		offense_script.player_just_scored = true;
 		if (player_index == 0) {
 			p1_score += 2;
 			switch_possession(1);

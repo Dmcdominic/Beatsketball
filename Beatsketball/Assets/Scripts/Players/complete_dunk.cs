@@ -10,9 +10,15 @@ public class complete_dunk : MonoBehaviour {
 
 	private Vector3 init_pos;
 
+	private offense_script player;
+	//private Vector3 init_player_pos;
+
 
 	private void Awake() {
 		init_pos = transform.position;
+		player = GetComponentInParent<offense_script>();
+		//init_player_pos = player.transform.position;
+		//print("init_player_pos set to: " + init_player_pos);
 	}
 
 	private void OnEnable() {
@@ -21,15 +27,10 @@ public class complete_dunk : MonoBehaviour {
 
 	private void Update() {
 		if (!dunking && music_manager.shooting == shooting_state.shot) {
-			//GetComponentInParent<offense_script>().Awake();
-			GameObject player = GetComponentInParent<offense_script>().gameObject;
 			transform.localScale = new Vector3(2.5f, 2.5f, 0);
-			if (team == 0) {
-				player.transform.localPosition = new Vector3(-7f, 0, 0);
-			} else {
-				player.transform.localPosition = new Vector3(7f, 0, 0);
-			}
-			player.transform.localScale = new Vector3(1, 1, 0);
+			player.transform.localScale = new Vector3(1, 1, 1);
+			//player.transform.position = init_player_pos;
+			player.transform.position = player.initial_position;
 			GetComponent<Animator>().SetTrigger("dunk");
 			dunking = true;
 		} else if (!dunking) {
