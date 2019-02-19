@@ -131,6 +131,9 @@ public class music_manager : MonoBehaviour {
 			return;
 		}
 
+		// Update audioSource pitch based on current timeScale
+		audioSource.pitch = Time.timeScale;
+
 		if (!playing || shooting == shooting_state.shot) {
 			return;
 		} else if (playing && !audioSource.isPlaying) {
@@ -149,9 +152,6 @@ public class music_manager : MonoBehaviour {
 			switch_possession(1);
 		}
 #endif
-
-		// Update audioSource pitch based on current timeScale
-		audioSource.pitch = Time.timeScale;
 
 		// Check for triggering the beat
 		float new_disp = get_beat_displacement();

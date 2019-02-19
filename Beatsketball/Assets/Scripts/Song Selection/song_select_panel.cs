@@ -24,12 +24,13 @@ public class song_select_panel : MonoBehaviour {
 			new_song_button.Track = Track;
 			new_song_button.song_Select_Panel = this;
 			song_Select_Buttons.Add(new_song_button);
-
-			if (master_Music.current_track == Track) {
-				Button button = new_song_button.GetComponent<Button>();
-				set_color(button, current_selected_color);
-			}
 		}
+
+		// Set song to default (first one), and preview it
+		master_Music.current_track = master_Music.all_tracks[0];
+		Button button = song_Select_Buttons[0].GetComponent<Button>();
+		set_color(button, current_selected_color);
+		StartCoroutine(play_song_preview(song_Select_Buttons[0].Track, true));
 	}
 
 	// Called when a song_select_button is pressed
@@ -39,8 +40,7 @@ public class song_select_panel : MonoBehaviour {
 
 		// Play the preview
 		StopAllCoroutines();
-		float volume = master_Music.master_volume * selected_button.Track.volume;
-		StartCoroutine(play_song_preview(selected_button.Track, volume));
+		StartCoroutine(play_song_preview(selected_button.Track));
 
 		// Update coloring
 		foreach (song_select_button song_button in song_Select_Buttons) {
@@ -57,9 +57,14 @@ public class song_select_panel : MonoBehaviour {
 	}
 
 	// Play the song preview, managing fade-in and fade-out
-	IEnumerator play_song_preview(track Track, float volume) {
+	IEnumerator play_song_preview(track Track, bool extra_delay = false) {
 		float fade_in_duration = 0.5f;
-		float fade_out_duration = 1f;
+		float fade_out_duration = 1.5f;
+
+		// Extra delay before starting, used for default song preview
+		if (extra_delay) {
+			yield return new WaitForSeconds(0.1f);
+		}
 
 		// Setup
 		song_preview_player.Stop();
@@ -67,6 +72,8 @@ public class song_select_panel : MonoBehaviour {
 		song_preview_player.time = Track.preview_start_time;
 		song_preview_player.volume = 0;
 		song_preview_player.Play();
+
+		float volume = master_Music.master_volume * Track.volume;
 
 		// Fade in
 		while (song_preview_player.volume < volume) {
