@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Main Court.unity
     guid: 75faba846ee39b74eac8f2d0bca3a15c
+  - enabled: 1
+    path: Assets/Scenes/game over scene.unity
+    guid: cd1e43189c18d406b83773ae51fefdaa
   m_configObjects: {}

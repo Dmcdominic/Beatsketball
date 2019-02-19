@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class panelControl : MonoBehaviour
 {
@@ -19,5 +21,10 @@ public class panelControl : MonoBehaviour
         {
             gameOverPanel.SetActive(true);
         }
+    }
+
+    public void MainMenu()
+    {
+        SceneManager.LoadScene(1);
     }
 }
