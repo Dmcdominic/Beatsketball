@@ -252,7 +252,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.106105246, g: 0.8867924, b: 0, a: 1}
+    m_HighlightedColor: {r: 1, g: 0, b: 0.009498596, a: 1}
     m_PressedColor: {r: 0.6037736, g: 0.6037736, b: 0.6037736, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -267,7 +267,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 175667850}
+  m_TargetGraphic: {fileID: 327973894}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -504,7 +504,7 @@ GameObject:
   - component: {fileID: 327973895}
   - component: {fileID: 327973894}
   m_Layer: 5
-  m_Name: Text
+  m_Name: Text (Main Menu)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2152,7 +2152,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.106105246, g: 0.8867924, b: 0, a: 1}
+    m_HighlightedColor: {r: 1, g: 0, b: 0.009498596, a: 1}
     m_PressedColor: {r: 0.6037736, g: 0.6037736, b: 0.6037736, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -2167,7 +2167,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 1231080945}
+  m_TargetGraphic: {fileID: 1425627423}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -2433,7 +2433,7 @@ GameObject:
   - component: {fileID: 1425627424}
   - component: {fileID: 1425627423}
   m_Layer: 5
-  m_Name: Text
+  m_Name: Text (Resume)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2654,7 +2654,7 @@ GameObject:
   - component: {fileID: 1469541340}
   - component: {fileID: 1469541339}
   m_Layer: 5
-  m_Name: Text
+  m_Name: Text (Quit)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3907,7 +3907,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.106105246, g: 0.8867924, b: 0, a: 1}
+    m_HighlightedColor: {r: 1, g: 0, b: 0.009498596, a: 1}
     m_PressedColor: {r: 0.6037736, g: 0.6037736, b: 0.6037736, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -3922,7 +3922,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 2078321706}
+  m_TargetGraphic: {fileID: 1469541339}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:

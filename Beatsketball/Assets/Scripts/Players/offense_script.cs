@@ -13,8 +13,9 @@ public class offense_script : MonoBehaviour {
 	[HideInInspector]
 	public Vector3 initial_position;
 	private Vector3 initial_scale;
-	
-	// True iff a player just scored, meaning offense position needs to reset.
+
+	// True iff a player just scored OR a match just started
+	//	(meaning offense position needs to reset)
 	public static bool player_just_scored = true;
 	public static bool enabled_this_frame = false;
 
@@ -24,10 +25,11 @@ public class offense_script : MonoBehaviour {
 	public static readonly Vector3 moveDirection = new Vector3(0, lane_delta_height, 0);
 
 
-	// Init - also being called by complete_dunk
+	// Init
 	public void Awake() {
 		initial_position = transform.position;
 		initial_scale = transform.localScale;
+		player_just_scored = true;
 	}
 
 	// Re-init the offense player

@@ -112,6 +112,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prompt_success: {fileID: 11400000, guid: 844e0af7c15ce4642b2ac7e607f4b18c, type: 2}
+  good_sprite: {fileID: 21300000, guid: 1a8a8cd95012eef40898bd5f84d192ce, type: 3}
+  great_sprite: {fileID: 21300000, guid: ac9fb9237cac3aa47882ca922edd7a4b, type: 3}
+  perfect_sprite: {fileID: 21300000, guid: c18817e3dbb77984eb84850276d846c8, type: 3}
 --- !u!95 &8852637739437054002
 Animator:
   serializedVersion: 3
