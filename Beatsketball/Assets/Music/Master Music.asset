@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d4bdd6089feb8244a261dfdd843152c, type: 3}
   m_Name: Master Music
   m_EditorClassIdentifier: 
-  current_track: {fileID: 11400000, guid: b8ab0678224392e489e18c56484c0b0e, type: 2}
+  current_track: {fileID: 11400000, guid: 50ca5e5e23ba59e41bec313528979c41, type: 2}
   master_volume: 1
   all_tracks:
   - {fileID: 11400000, guid: 50ca5e5e23ba59e41bec313528979c41, type: 2}
   - {fileID: 11400000, guid: 522bbaebc96616049a3d5e393fc39952, type: 2}
   - {fileID: 11400000, guid: ff0248121a04cee4fae29c875bf1b062, type: 2}
+  - {fileID: 11400000, guid: 37426ce95324fbf4a86fad8c33fa1773, type: 2}

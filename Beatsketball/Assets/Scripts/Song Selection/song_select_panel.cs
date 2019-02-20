@@ -23,14 +23,17 @@ public class song_select_panel : MonoBehaviour {
 			song_select_button new_song_button = Instantiate(Song_Select_Button_prefab, transform);
 			new_song_button.Track = Track;
 			new_song_button.song_Select_Panel = this;
+			set_selected(new_song_button, false);
 			song_Select_Buttons.Add(new_song_button);
 		}
 
 		// Set song to default (first one), and preview it
-		master_Music.current_track = master_Music.all_tracks[0];
-		Button button = song_Select_Buttons[0].GetComponent<Button>();
+		song_select_button default_song = song_Select_Buttons[0];
+		master_Music.current_track = default_song.Track;
+		Button button = default_song.GetComponent<Button>();
 		set_color(button, current_selected_color);
-		StartCoroutine(play_song_preview(song_Select_Buttons[0].Track, true));
+		set_selected(default_song, true);
+		StartCoroutine(play_song_preview(default_song.Track, true));
 	}
 
 	// Called when a song_select_button is pressed
@@ -45,15 +48,23 @@ public class song_select_panel : MonoBehaviour {
 		// Update coloring
 		foreach (song_select_button song_button in song_Select_Buttons) {
 			set_color(song_button.button, Color.clear);
+			set_selected(song_button, false);
+
 		}
 		set_color(selected_button.button, current_selected_color);
+		set_selected(selected_button, true);
 	}
 
-	// Set the color of a button
+	// Set the color of a button. Currently unused, replaced by the "selected" cursor
 	private void set_color(Button button, Color color) {
-		ColorBlock newColorBlock = button.colors;
-		newColorBlock.normalColor = color;
-		button.colors = newColorBlock;
+		//ColorBlock newColorBlock = button.colors;
+		//newColorBlock.normalColor = color;
+		//button.colors = newColorBlock;
+	}
+
+	// Set the "selected" cursor of a given song button
+	private void set_selected(song_select_button song_button, bool selected) {
+		song_button.selected_cursor.enabled = selected;
 	}
 
 	// Play the song preview, managing fade-in and fade-out

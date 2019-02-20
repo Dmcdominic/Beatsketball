@@ -12,6 +12,7 @@ public class song_select_button : MonoBehaviour {
 	public Text duration;
 	public Text bpm;
 	public Image album_cover;
+	public Image selected_cursor;
 
 	[HideInInspector]
 	public song_select_panel song_Select_Panel;

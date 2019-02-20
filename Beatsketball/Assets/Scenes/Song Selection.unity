@@ -942,7 +942,7 @@ GameObject:
   - component: {fileID: 1986327174}
   - component: {fileID: 1986327177}
   m_Layer: 5
-  m_Name: Go!
+  m_Name: Play Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -989,8 +989,8 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 1, g: 0.97866994, b: 0, a: 1}
-    m_PressedColor: {r: 1, g: 0.56846285, b: 0, a: 1}
+    m_HighlightedColor: {r: 1, g: 0.058307324, b: 0, a: 1}
+    m_PressedColor: {r: 1, g: 0.25895607, b: 0, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -1145,7 +1145,7 @@ PrefabInstance:
     - target: {fileID: 7187806280896957819, guid: 44954175a38510f4cb319f8ee5426db1,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 883.19995
+      value: 940.80005
       objectReference: {fileID: 0}
     - target: {fileID: 7187806280896957819, guid: 44954175a38510f4cb319f8ee5426db1,
         type: 3}
