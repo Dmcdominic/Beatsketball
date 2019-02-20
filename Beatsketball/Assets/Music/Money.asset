@@ -15,8 +15,8 @@ MonoBehaviour:
   song: {fileID: 8300000, guid: b31d70eacf5a7ce42b22ecf71bef1eeb, type: 3}
   title: Money
   artist: Mystery Skulls
-  bpm: 102
-  start_time: 0.25
+  bpm: 100
+  start_time: 0.06
   preview_start_time: 42
   volume: 0.27
   single_airhorn_override: 0

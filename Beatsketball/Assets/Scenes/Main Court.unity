@@ -1461,7 +1461,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'When you reach the hoop, press both bumpers to shoot the ball.
+  m_Text: 'When you reach the hoop, wait for the prompt to press both bumpers and
+    shoot the ball.
 
 
     Good luck!'
@@ -4474,6 +4475,11 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6973749337687209700, guid: c5d284fc56414804bbafddc387882320,
+        type: 3}
+      propertyPath: other_offense
+      value: 
+      objectReference: {fileID: 1526947710}
     - target: {fileID: 4519161362283342754, guid: c5d284fc56414804bbafddc387882320,
         type: 3}
       propertyPath: m_inputSource
@@ -4489,11 +4495,6 @@ PrefabInstance:
       propertyPath: m_isInputParsingRequired
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 6973749337687209700, guid: c5d284fc56414804bbafddc387882320,
-        type: 3}
-      propertyPath: other_offense
-      value: 
-      objectReference: {fileID: 1526947710}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c5d284fc56414804bbafddc387882320, type: 3}
 --- !u!4 &6973749336218998310 stripped
