@@ -273,16 +273,16 @@ public class music_manager : MonoBehaviour {
 		}
 
 		if (prompt.player == 0) {
-			spawn_p1_keyPrompt.Invoke(prompt);
+			spawn_p1_keyPrompt.Invoke(prompt, press_accuracy.none);
 		} else {
-			spawn_p2_keyPrompt.Invoke(prompt);
+			spawn_p2_keyPrompt.Invoke(prompt, press_accuracy.none);
 		}
 		key_prompts.add_prompt(prompt);
 	}
 
 	// Clears a visual prompt that was successful, and plays checkmark
-	public static void clear_visual_prompt(key_prompt prompt) {
-		Music_Manager.prompt_success.Invoke(prompt);
+	public static void clear_visual_prompt(key_prompt prompt, press_accuracy accuracy) {
+		Music_Manager.prompt_success.Invoke(prompt, accuracy);
 		if (prompt.shooting) {
 			//SoundManager.instance.playSwishDelayed();
 		} else if (prompt.player == offense_p) {
@@ -322,9 +322,19 @@ public class music_manager : MonoBehaviour {
 		return true;
 	}
 
-	// Returns true iff we are within beat_range seconds of a given time
-	public static bool is_valid_for_time(float time) {
-		return Mathf.Abs(Time.time - time) <= Music_Manager.beat_range;
+	// Returns the press accuracy at this frame, based on beat_range
+	public static press_accuracy is_valid_for_time(float time) {
+		float delta_t = Mathf.Abs(Time.time - time);
+		float accuracy_interval = Music_Manager.beat_range / 3f;
+		if (delta_t <= accuracy_interval) {
+			return press_accuracy.perfect;
+		} else if (delta_t <= accuracy_interval * 2) {
+			return press_accuracy.great;
+		} else if (delta_t <= accuracy_interval * 3) {
+			return press_accuracy.good;
+		} else {
+			return press_accuracy.none;
+		}
 	}
 
 	// Returns true iff we are within a full big beat interval of a certain time
@@ -374,4 +384,8 @@ public class music_manager : MonoBehaviour {
 	}
 }
 
+// The current status of shooting the ball (or not)
 public enum shooting_state { not, waiting, on_its_way, shot };
+
+// The accuracy of a button press on the beat
+public enum press_accuracy { none, good, great, perfect };

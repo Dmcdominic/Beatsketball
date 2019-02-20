@@ -39,13 +39,14 @@ public static class key_prompts {
 		// Set all successful prompts to be removed
 		List<key_prompt> to_remove = new List<key_prompt>();
 		foreach (key_prompt prompt in open_prompts[player_index]) {
-			if (music_manager.is_valid_for_time(prompt.time_at_beat)) {
+			press_accuracy accuracy = music_manager.is_valid_for_time(prompt.time_at_beat);
+			if (accuracy != press_accuracy.none) {
 				if (keys_down.Contains(prompt.key)) {
 					//Debug.Log("Pressed the correct key!: " + prompt.key);
 					//Debug.Log("Current displacement from beat: " + music_manager.get_big_beat_displacement());
 					to_remove.Add(prompt);
 					keys_down.Remove(prompt.key);
-					music_manager.clear_visual_prompt(prompt);
+					music_manager.clear_visual_prompt(prompt, accuracy);
 					// Check if its a shooting prompt
 					if (prompt.shooting) {
 						music_manager.Music_Manager.shoot_the_ball(player_index);

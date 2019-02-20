@@ -18,7 +18,7 @@ public class prompt_spawner : MonoBehaviour {
 	}
 
 	// Spawn a prompt
-	private void spawn_visual_prompt(key_prompt prompt) {
+	private void spawn_visual_prompt(key_prompt prompt, press_accuracy unused) {
 		Rigidbody2D new_prompt = Instantiate(prompt_prefab, transform);
 		new_prompt.GetComponentInChildren<TextMeshProUGUI>().text = prompt.key;
 
