@@ -14,6 +14,10 @@ public class keyprompt_id : MonoBehaviour {
 
 	private Image image;
 
+	private static readonly float good_adjust = 0.05f;
+	private static readonly float great_adjust = 0.1f;
+	private static readonly float perfect_adjust = 0.25f;
+
 
 	// Init
 	private void Awake() {
@@ -26,15 +30,25 @@ public class keyprompt_id : MonoBehaviour {
 		if (prompt.Equals(key_Prompt)) {
 			GetComponent<Animator>().enabled = true;
 			GetComponent<Animator>().SetTrigger("success");
-			// todo - use accuracy to change sprite
-			switch(accuracy) {
+
+			RectTransform RT = gameObject.GetComponent<RectTransform>();
+			Vector2 anchor_min = RT.anchorMin;
+			Vector2 anchor_max = RT.anchorMax;
+
+			switch (accuracy) {
 				case press_accuracy.good:
+					RT.anchorMin = new Vector2(anchor_min.x - good_adjust, anchor_min.y);
+					RT.anchorMax = new Vector2(anchor_max.x + good_adjust, anchor_max.y);
 					image.sprite = good_sprite;
 					break;
 				case press_accuracy.great:
+					RT.anchorMin = new Vector2(anchor_min.x - great_adjust, anchor_min.y);
+					RT.anchorMax = new Vector2(anchor_max.x + great_adjust, anchor_max.y);
 					image.sprite = great_sprite;
 					break;
 				case press_accuracy.perfect:
+					RT.anchorMin = new Vector2(anchor_min.x - perfect_adjust, anchor_min.y);
+					RT.anchorMax = new Vector2(anchor_max.x + perfect_adjust, anchor_max.y);
 					image.sprite = perfect_sprite;
 					break;
 			}

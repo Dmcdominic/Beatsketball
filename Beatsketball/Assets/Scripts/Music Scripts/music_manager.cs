@@ -5,8 +5,6 @@ using UnityEngine;
 public class music_manager : MonoBehaviour {
 
 	// Public fields
-	public bool disable_prompt_spawns = false;
-
 	public master_music master_Music;
 	public float beat_range; // The leeway, in seconds, to land something on the beat
 	public float faceoff_timescale_increment;
@@ -21,6 +19,7 @@ public class music_manager : MonoBehaviour {
 	public keyPrompt_event_object prompt_success;
 	public event_object p1_failed;
 	public event_object p2_failed;
+	public int_event_object player_scored;
 
 	public float beat_interval { get; private set; }
 	public float big_beat_interval { get; private set; }
@@ -268,10 +267,6 @@ public class music_manager : MonoBehaviour {
 
 	// Spawns flying keyprompts, and adds them to the key_prompts list
 	private void make_prompt(key_prompt prompt) {
-		if (disable_prompt_spawns) {
-			return;
-		}
-
 		if (prompt.player == 0) {
 			spawn_p1_keyPrompt.Invoke(prompt, press_accuracy.none);
 		} else {
@@ -374,6 +369,7 @@ public class music_manager : MonoBehaviour {
 	public void finish_shooting_ball(int player_index) {
 		SoundManager.instance.playSwish();
 		offense_script.player_just_scored = true;
+		player_scored.e.Invoke(player_index);
 		if (player_index == 0) {
 			p1_score += 2;
 			switch_possession(1);

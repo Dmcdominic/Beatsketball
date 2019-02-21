@@ -27,7 +27,7 @@ public class prompt_target : MonoBehaviour {
 
 	private void Update() {
 		foreach (string key in key_prompts.keys) {
-			if (Input.GetAxisRaw(key + "_" + player_string) > 0) {
+			if (Time.timeScale > 0 && Input.GetAxisRaw(key + "_" + player_string) > 0) {
 				image.sprite = sprite_down;
 				return;
 			}

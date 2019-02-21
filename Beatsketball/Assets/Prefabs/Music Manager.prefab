@@ -61,6 +61,7 @@ MonoBehaviour:
   prompt_success: {fileID: 11400000, guid: 844e0af7c15ce4642b2ac7e607f4b18c, type: 2}
   p1_failed: {fileID: 11400000, guid: 4f532d4e1fc7bc7449baf5d99bc67194, type: 2}
   p2_failed: {fileID: 11400000, guid: 7ce7c3a90a0846844af3993f58da1775, type: 2}
+  player_scored: {fileID: 11400000, guid: abecde5d6bd06504bbf5c2320975fbf4, type: 2}
 --- !u!82 &4552430996586500098
 AudioSource:
   m_ObjectHideFlags: 0
