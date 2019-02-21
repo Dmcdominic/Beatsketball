@@ -22,14 +22,12 @@ public class player_prompt_indicator : MonoBehaviour {
 		}
 
 		key_prompt next_prompt = key_prompts.get_next_prompt(player_index);
-		print("next_prompt.player: " + next_prompt.player);
 		if (next_prompt.player == -1) {
 			set_prompt_visible(false);
 			return;
 		}
 		bool is_this_beat = music_manager.is_within_this_big_beat(next_prompt.time_at_beat);
 
-		print("is_this_beat: " + is_this_beat);
 		if (!is_this_beat) {
 			set_prompt_visible(false);
 			return;

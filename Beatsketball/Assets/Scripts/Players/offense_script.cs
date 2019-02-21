@@ -5,11 +5,19 @@ using UnityEngine;
 public class offense_script : MonoBehaviour {
 	public int player_set_index;
 	public GameObject offense;
+	public GameObject other_offense;
 
 	public static int lane = 1;
 	private int prev_vert_input_sign = 0;
-	private Vector3 initial_position;
+
+	[HideInInspector]
+	public Vector3 initial_position;
 	private Vector3 initial_scale;
+
+	// True iff a player just scored OR a match just started
+	//	(meaning offense position needs to reset)
+	public static bool player_just_scored = true;
+	public static bool enabled_this_frame = false;
 
 	public static readonly float speed = 0.8f;
 	public static readonly float lane_delta_height = 0.9f;
@@ -17,22 +25,31 @@ public class offense_script : MonoBehaviour {
 	public static readonly Vector3 moveDirection = new Vector3(0, lane_delta_height, 0);
 
 
-	// Init - also being called by complete_dunk
+	// Init
 	public void Awake() {
 		initial_position = transform.position;
 		initial_scale = transform.localScale;
+		player_just_scored = true;
 	}
 
 	// Re-init the offense player
 	private void OnEnable() {
-		offense.transform.position = initial_position;
-		offense.transform.localScale = initial_scale;
-		lane = 1;
+		if (player_just_scored) {
+			offense.transform.position = initial_position;
+			offense.transform.localScale = initial_scale;
+			lane = 1;
+			player_just_scored = false;
+		} else if (!enabled_this_frame) {
+			offense.transform.position = other_offense.transform.position;
+			offense.transform.localScale = other_offense.transform.localScale;
+		}
+		enabled_this_frame = true;
 		prev_vert_input_sign = 0;
 	}
 
 	// Update is called once per frame
 	void Update() {
+		enabled_this_frame = false;
 		if (!music_manager.playing || music_manager.facing_off || music_manager.shooting == shooting_state.shot) {
 			return;
 		}

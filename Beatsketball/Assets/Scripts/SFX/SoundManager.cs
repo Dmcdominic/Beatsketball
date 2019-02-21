@@ -50,7 +50,9 @@ public class SoundManager : MonoBehaviour {
 	public void playAirhorn() {
 		airhorn.pitch = Random.Range(lowPitchRange, highPitchRange);
 		airhorn.Play();
-		StartCoroutine(airhorn_chain());
+		if (!music_manager.Music_Manager.master_Music.current_track.single_airhorn_override) {
+			StartCoroutine(airhorn_chain());
+		}
 	}
 
 	private IEnumerator airhorn_chain() {

@@ -5,9 +5,7 @@ using UnityEngine;
 public class music_manager : MonoBehaviour {
 
 	// Public fields
-	public bool disable_prompt_spawns = false;
-
-	public track Track;
+	public master_music master_Music;
 	public float beat_range; // The leeway, in seconds, to land something on the beat
 	public float faceoff_timescale_increment;
 	public float just_cleared_buffer_time;
@@ -21,6 +19,7 @@ public class music_manager : MonoBehaviour {
 	public keyPrompt_event_object prompt_success;
 	public event_object p1_failed;
 	public event_object p2_failed;
+	public int_event_object player_scored;
 
 	public float beat_interval { get; private set; }
 	public float big_beat_interval { get; private set; }
@@ -28,6 +27,7 @@ public class music_manager : MonoBehaviour {
 	// Private vars
 	private float prev_disp = 0;
 	private float prev_big_disp = 0;
+	private track Track;
 
 	// Public static vars
 	public static AudioSource audioSource;
@@ -57,6 +57,7 @@ public class music_manager : MonoBehaviour {
 		Music_Manager = this;
 		//DontDestroyOnLoad(gameObject);
 		audioSource = GetComponentInChildren<AudioSource>();
+		Track = master_Music.current_track;
 		beat_interval = (60f / Track.bpm);
 		big_beat_interval = beat_interval * 2f;
 	}
@@ -64,6 +65,7 @@ public class music_manager : MonoBehaviour {
 	// Start the scene
 	private void Start() {
 		audioSource.clip = Track.song;
+		audioSource.volume = master_Music.master_volume * Track.volume;
 		start_offense(0);
 	}
 
@@ -128,6 +130,9 @@ public class music_manager : MonoBehaviour {
 			return;
 		}
 
+		// Update audioSource pitch based on current timeScale
+		audioSource.pitch = Time.timeScale;
+
 		if (!playing || shooting == shooting_state.shot) {
 			return;
 		} else if (playing && !audioSource.isPlaying) {
@@ -146,9 +151,6 @@ public class music_manager : MonoBehaviour {
 			switch_possession(1);
 		}
 #endif
-
-		// Update audioSource pitch based on current timeScale
-		audioSource.pitch = Time.timeScale;
 
 		// Check for triggering the beat
 		float new_disp = get_beat_displacement();
@@ -265,21 +267,17 @@ public class music_manager : MonoBehaviour {
 
 	// Spawns flying keyprompts, and adds them to the key_prompts list
 	private void make_prompt(key_prompt prompt) {
-		if (disable_prompt_spawns) {
-			return;
-		}
-
 		if (prompt.player == 0) {
-			spawn_p1_keyPrompt.Invoke(prompt);
+			spawn_p1_keyPrompt.Invoke(prompt, press_accuracy.none);
 		} else {
-			spawn_p2_keyPrompt.Invoke(prompt);
+			spawn_p2_keyPrompt.Invoke(prompt, press_accuracy.none);
 		}
 		key_prompts.add_prompt(prompt);
 	}
 
 	// Clears a visual prompt that was successful, and plays checkmark
-	public static void clear_visual_prompt(key_prompt prompt) {
-		Music_Manager.prompt_success.Invoke(prompt);
+	public static void clear_visual_prompt(key_prompt prompt, press_accuracy accuracy) {
+		Music_Manager.prompt_success.Invoke(prompt, accuracy);
 		if (prompt.shooting) {
 			//SoundManager.instance.playSwishDelayed();
 		} else if (prompt.player == offense_p) {
@@ -319,9 +317,19 @@ public class music_manager : MonoBehaviour {
 		return true;
 	}
 
-	// Returns true iff we are within beat_range seconds of a given time
-	public static bool is_valid_for_time(float time) {
-		return Mathf.Abs(Time.time - time) <= Music_Manager.beat_range;
+	// Returns the press accuracy at this frame, based on beat_range
+	public static press_accuracy is_valid_for_time(float time) {
+		float delta_t = Mathf.Abs(Time.time - time);
+		float accuracy_interval = Music_Manager.beat_range / 3f;
+		if (delta_t <= accuracy_interval) {
+			return press_accuracy.perfect;
+		} else if (delta_t <= accuracy_interval * 2) {
+			return press_accuracy.great;
+		} else if (delta_t <= accuracy_interval * 3) {
+			return press_accuracy.good;
+		} else {
+			return press_accuracy.none;
+		}
 	}
 
 	// Returns true iff we are within a full big beat interval of a certain time
@@ -360,6 +368,8 @@ public class music_manager : MonoBehaviour {
 
 	public void finish_shooting_ball(int player_index) {
 		SoundManager.instance.playSwish();
+		offense_script.player_just_scored = true;
+		player_scored.e.Invoke(player_index);
 		if (player_index == 0) {
 			p1_score += 2;
 			switch_possession(1);
@@ -370,4 +380,8 @@ public class music_manager : MonoBehaviour {
 	}
 }
 
+// The current status of shooting the ball (or not)
 public enum shooting_state { not, waiting, on_its_way, shot };
+
+// The accuracy of a button press on the beat
+public enum press_accuracy { none, good, great, perfect };
