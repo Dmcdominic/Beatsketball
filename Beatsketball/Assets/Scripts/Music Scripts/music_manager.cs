@@ -34,6 +34,7 @@ public class music_manager : MonoBehaviour {
 
 	public static bool playing = false;
 	public static bool facing_off = false;
+	public static bool completing_faceoff = false;
 	public static bool just_cleared_buffer = false;
 	public static shooting_state shooting = shooting_state.not;
 
@@ -42,6 +43,8 @@ public class music_manager : MonoBehaviour {
 
 	public static int p1_score = 0;
 	public static int p2_score = 0;
+
+	public static float faceoff_completion_delay = 1f;
 
 	// Singleton setup
 	public static music_manager Music_Manager;
@@ -107,14 +110,27 @@ public class music_manager : MonoBehaviour {
 	public void start_faceoff() {
 		//delete_all_prompts();
 		facing_off = true;
+		completing_faceoff = false;
 		button_complexity++;
 		SoundManager.instance.playAirhorn();
 	}
 
 	// Call this when someone wins the faceoff
-	private void end_faceoff(int winning_player_index) {
-		facing_off = false;
+	private void start_ending_faceoff(int winning_player_index) {
+		completing_faceoff = true;
+		StartCoroutine(delayed_complete_faceoff(winning_player_index));
 		delete_all_prompts();
+	}
+
+	private IEnumerator delayed_complete_faceoff(int winning_player_index) {
+		yield return new WaitForSecondsRealtime(faceoff_completion_delay);
+		complete_faceoff(winning_player_index);
+	}
+
+	// Call this when the faceoff is totally complete, including completion delay
+	private void complete_faceoff(int winning_player_index) {
+		completing_faceoff = false;
+		facing_off = false;
 		if (winning_player_index != offense_p) {
 			// todo - cheering here?
 			switch_possession(winning_player_index);
@@ -151,6 +167,14 @@ public class music_manager : MonoBehaviour {
 			switch_possession(1);
 		}
 #endif
+
+		// Slow down the player if they passed the last defender
+		if (at_basket()) {
+			offense_script.speed -= Time.deltaTime * offense_script.shooting_speed_slowdown;
+			if (offense_script.speed < offense_script.min_speed) {
+				offense_script.speed = offense_script.min_speed;
+			}
+		}
 
 		// Check for triggering the beat
 		float new_disp = get_beat_displacement();
@@ -191,9 +215,9 @@ public class music_manager : MonoBehaviour {
 		} else if (p1_pass ^ p2_pass) {
 			// Faceoff end condition, assuming exactly 1 player failed
 			if (!p1_pass) {
-				end_faceoff(1);
+				start_ending_faceoff(1);
 			} else if (!p2_pass) {
-				end_faceoff(0);
+				start_ending_faceoff(0);
 			}
 		}
 	}
@@ -203,10 +227,10 @@ public class music_manager : MonoBehaviour {
 		if (!playing) {
 			return;
 		}
-		if (facing_off) {
+		if (facing_off && !completing_faceoff) {
 			Time.timeScale += faceoff_timescale_increment * Time.fixedUnscaledDeltaTime;
 		} else if (Time.timeScale > 1) {
-			Time.timeScale = Mathf.Max(1, Time.timeScale - faceoff_timescale_increment * 18f * Time.fixedUnscaledDeltaTime);
+			Time.timeScale = Mathf.Max(1, Time.timeScale - faceoff_timescale_increment * 9f * Time.fixedUnscaledDeltaTime);
 		}
 	}
 
@@ -257,7 +281,7 @@ public class music_manager : MonoBehaviour {
 				string key = key_prompts.get_random_key(button_complexity);
 				make_prompt(new key_prompt(offense_p, key, Time.time + big_beat_interval * 2, false));
 			}
-		} else if (playing && facing_off) {
+		} else if (playing && facing_off && !completing_faceoff) {
 			// If we are facing off, spawn a random key_prompt for both players
 			string key = key_prompts.get_random_key(button_complexity);
 			make_prompt(new key_prompt(0, key, Time.time + big_beat_interval * 2, false));
@@ -284,6 +308,11 @@ public class music_manager : MonoBehaviour {
 			SoundManager.instance.playBallBounce();
 		} else {
 			SoundManager.instance.playShuffle();
+		}
+
+		// Increment offense speed, if applicable
+		if (!facing_off && !at_basket() && prompt.player == offense_p) {
+			offense_script.adjust_speed(accuracy);
 		}
 	}
 
@@ -366,6 +395,7 @@ public class music_manager : MonoBehaviour {
 		shooting = shooting_state.shot;
 	}
 
+	// Call this after the player finishes dunking
 	public void finish_shooting_ball(int player_index) {
 		SoundManager.instance.playSwish();
 		offense_script.player_just_scored = true;
@@ -377,6 +407,11 @@ public class music_manager : MonoBehaviour {
 			p2_score += 2;
 			switch_possession(0);
 		}
+	}
+
+	// Returns true iff shooting == shooting_state.waiting or shooting == shooting_state.on_its_way
+	public static bool at_basket() {
+		return shooting == shooting_state.waiting || shooting == shooting_state.on_its_way;
 	}
 }
 

@@ -15,8 +15,8 @@ MonoBehaviour:
   song: {fileID: 8300000, guid: 88f7f1b5a9785dc499917f71a39bbf5e, type: 3}
   title: Wii Shop Channel
   artist: Nintendo
-  bpm: 149
-  start_time: 0.4
+  bpm: 148.175
+  start_time: 0.38
   preview_start_time: 0.2
   volume: 0.7
   single_airhorn_override: 0

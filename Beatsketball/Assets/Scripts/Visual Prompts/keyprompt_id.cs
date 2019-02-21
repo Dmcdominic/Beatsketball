@@ -16,7 +16,7 @@ public class keyprompt_id : MonoBehaviour {
 
 	private static readonly float good_adjust = 0.05f;
 	private static readonly float great_adjust = 0.1f;
-	private static readonly float perfect_adjust = 0.25f;
+	private static readonly float perfect_adjust = 0.3f;
 
 
 	// Init

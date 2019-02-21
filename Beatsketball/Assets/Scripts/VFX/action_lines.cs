@@ -17,7 +17,7 @@ public class action_lines : MonoBehaviour {
 
 	// Update the action lines every frame based on face off status
 	void Update() {
-		if (!music_manager.facing_off) {
+		if (!music_manager.facing_off || music_manager.completing_faceoff) {
 			action_lines_sprite.SetActive(false);
 			return;
 		}

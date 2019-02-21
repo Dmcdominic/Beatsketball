@@ -19,7 +19,15 @@ public class offense_script : MonoBehaviour {
 	public static bool player_just_scored = true;
 	public static bool enabled_this_frame = false;
 
-	public static readonly float speed = 0.8f;
+	public static float speed;
+
+	public static readonly float starting_speed = 0.7f;
+	public static readonly float good_speed_incr = -0.08f;
+	public static readonly float great_speed_incr = 0f;
+	public static readonly float perfect_speed_incr = 0.1f;
+	public static readonly float shooting_speed_slowdown = 1.2f;
+	public static readonly float min_speed = 0.25f;
+
 	public static readonly float lane_delta_height = 0.9f;
 	public static readonly float distance_scale_diff = 0.15f;
 	public static readonly Vector3 moveDirection = new Vector3(0, lane_delta_height, 0);
@@ -29,11 +37,14 @@ public class offense_script : MonoBehaviour {
 	public void Awake() {
 		initial_position = transform.position;
 		initial_scale = transform.localScale;
-		player_just_scored = true;
+		if (player_set_index == 0) {
+			player_just_scored = true;
+		}
 	}
 
 	// Re-init the offense player
 	private void OnEnable() {
+		speed = starting_speed;
 		if (player_just_scored) {
 			offense.transform.position = initial_position;
 			offense.transform.localScale = initial_scale;
@@ -103,6 +114,24 @@ public class offense_script : MonoBehaviour {
 		if (collision.gameObject.tag == "Defense") {
 			// Start the faceoff
 			music_manager.Music_Manager.start_faceoff();
+		}
+	}
+
+	// Adjust the offense speed based on a prompt that was just completed
+	public static void adjust_speed(press_accuracy accuracy) {
+		switch (accuracy) {
+			case press_accuracy.good:
+				speed += good_speed_incr;
+				break;
+			case press_accuracy.great:
+				speed += great_speed_incr;
+				break;
+			case press_accuracy.perfect:
+				speed += perfect_speed_incr;
+				break;
+		}
+		if (speed < min_speed) {
+			speed = min_speed;
 		}
 	}
 }
