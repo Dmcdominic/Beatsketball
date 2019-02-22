@@ -1,9 +1,7 @@
 fileFormatVersion: 2
-guid: 1648a639162d2aa45916c52f67d12b08
+guid: e0bdf26ba49056a499f0705e15061b7d
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: FINAL Fixed Pink Idle_0
-    21300002: FINAL Fixed Pink Idle_1
+  fileIDToRecycleName: {}
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -83,7 +81,7 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
-    buildTarget: WebGL
+    buildTarget: iPhone
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -94,7 +92,7 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
   - serializedVersion: 2
-    buildTarget: iPhone
+    buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -106,51 +104,11 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: FINAL Fixed Pink Idle_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 0
-        width: 21.5
-        height: 42
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 43f8dbb2ff321c24999b6f4e583aca63
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: FINAL Fixed Pink Idle_1
-      rect:
-        serializedVersion: 2
-        x: 21
-        y: 0
-        width: 21.5
-        height: 42
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e5764bf863f325c44a574ef666703c58
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+    sprites: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 57f3701ae2dadea4d8a5a92969df2730
+    spriteID: 8a76147ac6aedb442aa193be427feb19
     vertices: []
     indices: 
     edges: []
