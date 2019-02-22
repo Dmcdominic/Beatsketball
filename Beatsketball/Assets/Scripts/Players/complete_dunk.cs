@@ -29,9 +29,14 @@ public class complete_dunk : MonoBehaviour {
 			player.transform.position = player.initial_position;
 			GetComponent<Animator>().SetTrigger("dunk");
 			dunking = true;
+			return;
 		} else if (!dunking) {
 			transform.position = init_pos;
 		}
+
+		GetComponent<Animator>().SetBool("facing_off", music_manager.facing_off);
+		GetComponent<Animator>().SetBool("dabbing", music_manager.facing_off && music_manager.completing_faceoff && music_manager.faceoff_winner == team);
+		GetComponent<Animator>().SetBool("sagging", music_manager.facing_off && music_manager.completing_faceoff && music_manager.faceoff_winner != team);
 	}
 
 	public void on_complete_dunk() {

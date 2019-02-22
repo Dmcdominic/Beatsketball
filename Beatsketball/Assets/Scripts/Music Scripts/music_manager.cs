@@ -35,6 +35,7 @@ public class music_manager : MonoBehaviour {
 	public static bool playing = false;
 	public static bool facing_off = false;
 	public static bool completing_faceoff = false;
+	public static int faceoff_winner;
 	public static bool just_cleared_buffer = false;
 	public static shooting_state shooting = shooting_state.not;
 
@@ -118,6 +119,7 @@ public class music_manager : MonoBehaviour {
 	// Call this when someone wins the faceoff
 	private void start_ending_faceoff(int winning_player_index) {
 		completing_faceoff = true;
+		faceoff_winner = winning_player_index;
 		StartCoroutine(delayed_complete_faceoff(winning_player_index));
 		delete_all_prompts();
 	}

@@ -12,10 +12,13 @@ public class tutorialControl : MonoBehaviour {
 	public GameObject next_button2;
 	public GameObject next_button3;
 
+	public GameObject tutorial_backdrop;
+
 	// Start is called before the first frame update
 	void Start() {
 		pause();
 		tutorial1.gameObject.SetActive(true);
+		tutorial_backdrop.SetActive(true);
 		EventSystem.current.SetSelectedGameObject(next_button1);
 	}
 
@@ -33,6 +36,7 @@ public class tutorialControl : MonoBehaviour {
 
 	public void startgame() {
 		tutorial3.gameObject.SetActive(false);
+		tutorial_backdrop.SetActive(false);
 		resume();
 	}
 

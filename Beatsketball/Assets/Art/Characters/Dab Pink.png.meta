@@ -1,7 +1,9 @@
 fileFormatVersion: 2
 guid: e0bdf26ba49056a499f0705e15061b7d
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: Dab Pink_0
+    21300002: Dab Pink_1
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -104,7 +106,47 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Dab Pink_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 24.5
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3f3a9dd3409ca9b478771de009c42f6e
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dab Pink_1
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 0
+        width: 24.5
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 06c1323cc2ddcd844a6a8dd28d2b2c8d
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []

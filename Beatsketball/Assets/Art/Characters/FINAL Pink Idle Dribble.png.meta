@@ -1,9 +1,13 @@
 fileFormatVersion: 2
-guid: d2a2be0e7ca04b447942f2f7fb05fe37
+guid: 59a16966fae8fad4d99a13ee8a59ee95
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Pink SAG_0
-    21300002: Pink SAG_1
+    21300000: FINAL Pink Idle Dribble_0
+    21300002: FINAL Pink Idle Dribble_1
+    21300004: FINAL Pink Idle Dribble_2
+    21300006: FINAL Pink Idle Dribble_3
+    21300008: FINAL Pink Idle Dribble_4
+    21300010: FINAL Pink Idle Dribble_5
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -108,12 +112,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Pink SAG_0
+      name: FINAL Pink Idle Dribble_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 18
+        width: 22
         height: 42
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -122,18 +126,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5e24f420b1fc56e46be86cd03c93c335
+      spriteID: b61c9615e22a4244b8e51b987ab2fbac
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Pink SAG_1
+      name: FINAL Pink Idle Dribble_1
       rect:
         serializedVersion: 2
-        x: 18
+        x: 22
         y: 0
-        width: 18
+        width: 22
         height: 42
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -142,7 +146,87 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5b5b52bca413e204e822fd790ad42f25
+      spriteID: 29bf8d1d5ef179d4da04a1aed3c1dd8f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FINAL Pink Idle Dribble_2
+      rect:
+        serializedVersion: 2
+        x: 44
+        y: 0
+        width: 22
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cf6f72a53df0fae4696db0d022ad2c1f
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FINAL Pink Idle Dribble_3
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 0
+        width: 22
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd56179fa93037f4ea9a17203339599b
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FINAL Pink Idle Dribble_4
+      rect:
+        serializedVersion: 2
+        x: 88
+        y: 0
+        width: 22
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 97b10bdc6ce17a64e9b364f1137a7199
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FINAL Pink Idle Dribble_5
+      rect:
+        serializedVersion: 2
+        x: 110
+        y: 0
+        width: 22
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 42cfb2f502025284f829bfc014c1f478
       vertices: []
       indices: 
       edges: []
@@ -150,7 +234,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: a9be662d6aa27f94ab30afc71f380c1b
+    spriteID: 0df6f1b5cf74252489206159505f9ad7
     vertices: []
     indices: 
     edges: []

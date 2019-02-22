@@ -10,6 +10,7 @@ public class PauseMenu : MonoBehaviour {
 	public GameObject pauseMenuUI;
 
 	private float prev_timeScale = 1f;
+	private bool pause_held = false;
 
 
 	// Start is called before the first frame update
@@ -19,13 +20,16 @@ public class PauseMenu : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update() {
-		if (Input.GetKeyDown(KeyCode.Escape)) {
+		//if (Input.GetKeyDown(KeyCode.Escape)) {
+		if (Input.GetAxisRaw("pause") > 0.1f && !pause_held) {
 			if (isPaused) {
 				Resume();
 			} else {
 				Pause();
 			}
 		}
+
+		pause_held = Input.GetAxisRaw("pause") > 0.1f;
 	}
 
 	public void Resume() {

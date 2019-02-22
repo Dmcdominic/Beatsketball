@@ -1,7 +1,9 @@
 fileFormatVersion: 2
 guid: 997e67dac84a35e4e8d694952a57afbd
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: Dab Blue_0
+    21300002: Dab Blue_1
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -104,7 +106,47 @@ TextureImporter:
     androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Dab Blue_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 24.5
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d462bf5822637f34698e04a03a5d4b89
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Dab Blue_1
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 0
+        width: 24.5
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c51b74f9e9bb7ad4f982c051a9d8967a
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
