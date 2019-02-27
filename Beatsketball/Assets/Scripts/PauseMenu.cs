@@ -12,14 +12,21 @@ public class PauseMenu : MonoBehaviour {
 	private float prev_timeScale = 1f;
 	private bool pause_held = false;
 
+	private gameManager GameManager;
+
 
 	// Start is called before the first frame update
 	void Start() {
+		GameManager = FindObjectOfType<gameManager>();
 		pauseMenuUI.SetActive(false);
 	}
 
 	// Update is called once per frame
 	void Update() {
+		if (GameManager.gameHasEnded) {
+			return;
+		}
+
 		//if (Input.GetKeyDown(KeyCode.Escape)) {
 		if (Input.GetAxisRaw("pause") > 0.1f && !pause_held) {
 			if (isPaused) {

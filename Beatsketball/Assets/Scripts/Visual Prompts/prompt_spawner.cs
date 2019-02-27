@@ -28,10 +28,14 @@ public class prompt_spawner : MonoBehaviour {
 		}
 
 		new_prompt.GetComponent<Image>().color = get_prompt_color(prompt.key);
-		new_prompt.GetComponent<keyprompt_id>().key_Prompt = prompt;
+
+		keyprompt_id kID = new_prompt.GetComponent<keyprompt_id>();
+		kID.key_Prompt = prompt;
+		kID.prompt_target = prompt_target;
+		kID.spawned_time = Time.time;
 
 		new_prompt.transform.position = transform.position;
-		new_prompt.velocity = (prompt_target.transform.position - new_prompt.transform.position) / (music_manager.Music_Manager.big_beat_interval * 2);
+		//new_prompt.velocity = (prompt_target.transform.position - new_prompt.transform.position) / (music_manager.Music_Manager.big_beat_interval * 2);
 	}
 
 	// Returns the corresponding color for each key prompt

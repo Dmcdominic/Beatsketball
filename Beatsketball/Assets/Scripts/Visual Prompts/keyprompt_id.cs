@@ -11,8 +11,11 @@ public class keyprompt_id : MonoBehaviour {
 	public Sprite perfect_sprite;
 
 	public key_prompt key_Prompt;
+	public GameObject prompt_target { get; set; }
+	public float spawned_time { get; set; }
 
 	private Image image;
+	private Rigidbody2D rb;
 
 	private static readonly float good_adjust = 0.05f;
 	private static readonly float great_adjust = 0.1f;
@@ -22,10 +25,16 @@ public class keyprompt_id : MonoBehaviour {
 	// Init
 	private void Awake() {
 		image = GetComponent<Image>();
+		rb = GetComponent<Rigidbody2D>();
 		prompt_success.e.AddListener(on_prompt_success);
 	}
 
-	// Checks if it was this prompt, and plays the green checkmark anim if so
+	// Setup (once spawner is finished)
+	private void Start() {
+		rb.velocity = (prompt_target.transform.position - transform.position) / (music_manager.Music_Manager.big_beat_interval * 2);
+	}
+
+	// Checks if it was this prompt, and plays a good/great/perfect anim if so
 	private void on_prompt_success(key_prompt prompt, press_accuracy accuracy) {
 		if (prompt.Equals(key_Prompt)) {
 			GetComponent<Animator>().enabled = true;
