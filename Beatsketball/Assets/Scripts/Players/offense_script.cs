@@ -71,9 +71,9 @@ public class offense_script : MonoBehaviour {
 
 		// Take in the input and determine if you should change lanes
 		string input_axis = "Vertical_" + (player_set_index + 1).ToString();
-		float offense_vertical_input = Input.GetAxisRaw(input_axis);
+		float offense_vertical_input = Input.GetAxis(input_axis);
 
-		if (offense_vertical_input > 0 && prev_vert_input_sign <= 0 && lane > 0) {
+		if (offense_vertical_input > 0.1f && prev_vert_input_sign <= 0 && lane > 0) {
 			if (music_manager.is_valid_move_frame()) {
 				lane -= 1;
 				offense.transform.position += moveDirection;
@@ -84,7 +84,7 @@ public class offense_script : MonoBehaviour {
 			}
 		}
 
-		if (offense_vertical_input < 0 && prev_vert_input_sign >= 0 && lane < 2) {
+		if (offense_vertical_input < -0.1f && prev_vert_input_sign >= 0 && lane < 2) {
 			if (music_manager.is_valid_move_frame()) {
 				lane += 1;
 				offense.transform.position -= moveDirection;

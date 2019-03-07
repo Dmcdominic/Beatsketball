@@ -6,11 +6,12 @@ public static class key_prompts {
 
 	public static List<key_prompt>[] open_prompts = new List<key_prompt>[] { new List<key_prompt>(), new List<key_prompt>() };
 
-	public static readonly List<string> keys = new List<string> { "B", "A", "Y", "X" };
-	//public static readonly string shoot_key = "X";
+	public static readonly List<string> keys = new List<string> { "A", "B", "X", "Y" };
 	public static readonly string shoot_key = "L&R";
 	public static readonly string LBumper_key = "LBumper";
 	public static readonly string RBumper_key = "RBumper";
+
+	public static bool[] bumpers_held = new bool[2] { false, false };
 
 
 	public static void add_prompt(key_prompt prompt) {
@@ -29,12 +30,15 @@ public static class key_prompts {
 			}
 		}
 
+		bool LBumper_down = Input.GetAxisRaw(LBumper_key + "_" + player_string) != 0;
+		bool RBumper_down = Input.GetAxisRaw(RBumper_key + "_" + player_string) != 0;
+		bool both_bumpers_down = LBumper_down && RBumper_down;
+
 		// Check if they're trying to shoot
-		bool LBumper_last = Input.GetButtonDown(LBumper_key + "_" + player_string) && Input.GetButton(RBumper_key + "_" + player_string);
-		bool RBumper_last = Input.GetButton(LBumper_key + "_" + player_string) && Input.GetButtonDown(RBumper_key + "_" + player_string);
-		if (LBumper_last || RBumper_last) {
+		if (both_bumpers_down && !bumpers_held[player_index]) {
 			keys_down.Add(shoot_key);
 		}
+		bumpers_held[player_index] = both_bumpers_down;
 
 		// Set all successful prompts to be removed
 		List<key_prompt> to_remove = new List<key_prompt>();

@@ -42,13 +42,13 @@ public class prompt_spawner : MonoBehaviour {
 	public static Color get_prompt_color(string prompt_key) {
 		switch (prompt_key) {
 			case "A":
-				return Color.red;
+				return Color.green;
 			case "B":
-				return Color.yellow;
+				return Color.red;
 			case "X":
 				return Color.blue;
 			case "Y":
-				return Color.green;
+				return Color.yellow;
 		}
 		// Default case - For shooting the basket, or other
 		return Color.white;

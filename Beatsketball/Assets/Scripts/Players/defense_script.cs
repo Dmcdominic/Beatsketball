@@ -50,9 +50,9 @@ public class defense_script : MonoBehaviour {
 		// Take in the input and determine if you should change lanes
 		int defender_index = player_set_index == 0 ? 1 : 0;
 		string input_axis = "Vertical_" + (defender_index + 1).ToString();
-		float defense_vertical_input = Input.GetAxisRaw(input_axis);
+		float defense_vertical_input = Input.GetAxis(input_axis);
 
-		if (defense_vertical_input > 0 && prev_vert_input_sign <= 0 && lanes[current_defender] > 0) {
+		if (defense_vertical_input > 0.1f && prev_vert_input_sign <= 0 && lanes[current_defender] > 0) {
 			if (music_manager.is_valid_move_frame()) {
 				lanes[current_defender] -= 1;
 				defenders[current_defender].transform.position += offense_script.moveDirection;
@@ -63,7 +63,7 @@ public class defense_script : MonoBehaviour {
 			}
 		}
 
-		if (defense_vertical_input < 0 && prev_vert_input_sign >= 0 && lanes[current_defender] < 2) {
+		if (defense_vertical_input < -0.1f && prev_vert_input_sign >= 0 && lanes[current_defender] < 2) {
 			if (music_manager.is_valid_move_frame()) {
 				lanes[current_defender] += 1;
 				defenders[current_defender].transform.position -= offense_script.moveDirection;
