@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using XboxCtrlrInput;
 
 public static class key_prompts {
 
@@ -20,18 +21,39 @@ public static class key_prompts {
 
 	public static bool check_all_prompts(int player_index) {
 		string player_string = (player_index + 1).ToString();
+		XboxController controller = player_index == 0 ? XboxController.First : XboxController.Second;
 		bool passed = true;
 
 		// Find all the keys that were pressed on this frame
 		List<string> keys_down = new List<string>();
 		foreach (string key in keys) {
-			if (Input.GetButtonDown(key + "_" + player_string) && !music_manager.just_cleared_buffer) {
+			XboxButton button = XboxButton.A;
+			switch (key) {
+				case "A":
+					button = XboxButton.A;
+					break;
+				case "B":
+					button = XboxButton.B;
+					break;
+				case "X":
+					button = XboxButton.X;
+					break;
+				case "Y":
+					button = XboxButton.Y;
+					break;
+			}
+			//if (Input.GetButtonDown(key + "_" + player_string) && !music_manager.just_cleared_buffer) {
+			if (XCI.GetButtonDown(button, controller) && !music_manager.just_cleared_buffer) {
 				keys_down.Add(key);
 			}
 		}
 
-		bool LBumper_down = Input.GetAxisRaw(LBumper_key + "_" + player_string) != 0;
-		bool RBumper_down = Input.GetAxisRaw(RBumper_key + "_" + player_string) != 0;
+		//bool LBumper_down = Input.GetAxisRaw(LBumper_key + "_" + player_string) != 0;
+		//bool RBumper_down = Input.GetAxisRaw(RBumper_key + "_" + player_string) != 0;
+
+		bool LBumper_down = XCI.GetAxisRaw(XboxAxis.LeftTrigger, controller) != 0;
+		bool RBumper_down = XCI.GetAxisRaw(XboxAxis.RightTrigger, controller) != 0;
+
 		bool both_bumpers_down = LBumper_down && RBumper_down;
 
 		// Check if they're trying to shoot

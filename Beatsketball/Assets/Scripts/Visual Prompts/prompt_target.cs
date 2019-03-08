@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using XboxCtrlrInput;
 
 public class prompt_target : MonoBehaviour {
 	public event_object player_failed;
@@ -26,8 +27,26 @@ public class prompt_target : MonoBehaviour {
 	}
 
 	private void Update() {
+		XboxController controller = player_index == 0 ? XboxController.First : XboxController.Second;
 		foreach (string key in key_prompts.keys) {
-			if (Time.timeScale > 0 && Input.GetAxisRaw(key + "_" + player_string) > 0) {
+			XboxButton button = XboxButton.A;
+			switch (key) {
+				case "A":
+					button = XboxButton.A;
+					break;
+				case "B":
+					button = XboxButton.B;
+					break;
+				case "X":
+					button = XboxButton.X;
+					break;
+				case "Y":
+					button = XboxButton.Y;
+					break;
+			}
+
+			//if (Time.timeScale > 0 && Input.GetAxisRaw(key + "_" + player_string) > 0) {
+			if (Time.timeScale > 0 && XCI.GetButtonDown(button, controller)) {
 				image.sprite = sprite_down;
 				return;
 			}

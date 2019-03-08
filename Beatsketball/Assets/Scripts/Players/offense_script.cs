@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using XboxCtrlrInput;
 
 public class offense_script : MonoBehaviour {
 	public int player_set_index;
@@ -70,8 +71,10 @@ public class offense_script : MonoBehaviour {
 		offense.transform.position += forward * Time.deltaTime * (player_set_index == 1 ? -1f : 1f);
 
 		// Take in the input and determine if you should change lanes
-		string input_axis = "Vertical_" + (player_set_index + 1).ToString();
-		float offense_vertical_input = Input.GetAxis(input_axis);
+		XboxController controller = player_set_index == 0 ? XboxController.First : XboxController.Second;
+		float offense_vertical_input = XCI.GetAxis(XboxAxis.LeftStickY, controller);
+		//string input_axis = "Vertical_" + (player_set_index + 1).ToString();
+		//float offense_vertical_input = Input.GetAxis(input_axis);
 
 		if (offense_vertical_input > 0.1f && prev_vert_input_sign <= 0 && lane > 0) {
 			if (music_manager.is_valid_move_frame()) {

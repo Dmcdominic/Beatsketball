@@ -4,6 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using XboxCtrlrInput;
 
 public class PauseMenu : MonoBehaviour {
 	public static bool isPaused = false;
@@ -28,7 +29,7 @@ public class PauseMenu : MonoBehaviour {
 		}
 
 		//if (Input.GetKeyDown(KeyCode.Escape)) {
-		if (Input.GetAxisRaw("pause") > 0.1f && !pause_held) {
+		if (XCI.GetButtonDown(XboxButton.Start) || Input.GetKeyDown(KeyCode.Escape)) {
 			if (isPaused) {
 				Resume();
 			} else {
@@ -36,7 +37,7 @@ public class PauseMenu : MonoBehaviour {
 			}
 		}
 
-		pause_held = Input.GetAxisRaw("pause") > 0.1f;
+		//pause_held = Input.GetAxisRaw("pause") > 0.1f;
 	}
 
 	public void Resume() {

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using XboxCtrlrInput;
 
 public class defense_script : MonoBehaviour {
 	// Public fields
@@ -48,9 +49,10 @@ public class defense_script : MonoBehaviour {
 		}
 
 		// Take in the input and determine if you should change lanes
-		int defender_index = player_set_index == 0 ? 1 : 0;
-		string input_axis = "Vertical_" + (defender_index + 1).ToString();
-		float defense_vertical_input = Input.GetAxis(input_axis);
+		XboxController controller = player_set_index == 0 ? XboxController.Second : XboxController.First;
+		float defense_vertical_input = XCI.GetAxis(XboxAxis.LeftStickY, controller);
+		//string input_axis = "Vertical_" + (defender_index + 1).ToString();
+		//float defense_vertical_input = Input.GetAxis(input_axis);
 
 		if (defense_vertical_input > 0.1f && prev_vert_input_sign <= 0 && lanes[current_defender] > 0) {
 			if (music_manager.is_valid_move_frame()) {
