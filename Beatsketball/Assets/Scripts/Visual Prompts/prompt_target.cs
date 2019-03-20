@@ -46,7 +46,19 @@ public class prompt_target : MonoBehaviour {
 			}
 
 			//if (Time.timeScale > 0 && Input.GetAxisRaw(key + "_" + player_string) > 0) {
-			if (Time.timeScale > 0 && XCI.GetButtonDown(button, controller)) {
+			if (Time.timeScale > 0 && XCI.GetButton(button, controller)) {
+				image.sprite = sprite_down;
+				return;
+			}
+
+			// Bumper check
+			bool LBumper_down = XCI.GetAxisRaw(XboxAxis.LeftTrigger, controller) != 0;
+			bool RBumper_down = XCI.GetAxisRaw(XboxAxis.RightTrigger, controller) != 0;
+
+			bool both_bumpers_down = LBumper_down && RBumper_down;
+
+			// Check if they're trying to shoot
+			if (both_bumpers_down) {
 				image.sprite = sprite_down;
 				return;
 			}
